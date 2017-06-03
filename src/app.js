@@ -25,8 +25,8 @@ const ss = require('socket.io-stream');
 var errorHandler;
 var app = express();
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
 var id = 0;
+var io = require('socket.io')(server);
 
 app.use(compression());
 app.use(require('cookie-parser')());
