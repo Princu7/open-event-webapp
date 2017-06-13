@@ -1,4 +1,5 @@
-var socket = io.connect('https://opev-webgen-dev.herokuapp.com/deploy');
+//var socket = io.connect('https://opev-webgen-dev.herokuapp.com/deploy');
+var socket = io.connect('https://secure-meadow-20680.herokuapp.com/deploy');
 var $deploy = $('#deploy');
 var $abort = $('#abort');
 var $msg = $('#msg');
