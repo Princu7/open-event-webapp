@@ -298,7 +298,6 @@ exports.createDistDir = function(req, socket, callback) {
         const jsonData = data;
 
         eventName = jsonData.eventurls.name;
-        if(req.body.datasource == 'eventapi') {
           var backPath = distHelper.distPath + '/' + appFolder + '/' + jsonData.eventurls.background_path;
           var basePath = distHelper.distPath + '/' + appFolder + '/images';
           distHelper.optimizeBackground(backPath, socket, function() {
@@ -308,10 +307,6 @@ exports.createDistDir = function(req, socket, callback) {
               });
             });
           });
-        }
-        else {
-          templateGenerate();
-        }
 
         function templateGenerate() {
           try {
