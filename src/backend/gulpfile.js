@@ -81,6 +81,7 @@ exports.minifyJs = function (path, cb) {
         console.log('Error while compiling session.js');
       }))
       .pipe(gulp.dest(path + '/js/'));
+
   });
 
   gulp.task('minifyJs', ['speakersJs', 'roomsJs', 'scheduleJs', 'eventJs', 'tracksJs', 'sessionJs'], function() {

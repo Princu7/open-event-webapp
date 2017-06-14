@@ -9,16 +9,16 @@ $(document).ready(function() {
 
   function init() {
     if (localStorage.hasOwnProperty('sessions') === false) {
-      localStorage['sessions'] = JSON.stringify(new Array(maxNoOfSessions).fill(0));
+      localStorage.sessions = JSON.stringify(new Array(maxNoOfSessions).fill(0));
     }
-    var temp = JSON.parse(localStorage['sessions']);
+    var temp = JSON.parse(localStorage.sessions);
 
     if (temp[sessionId] === 1) {
       sessionElem.find('.bookmark').css('color', 'black');
     }
   }
 
-  sideslider.click( function(){
+  sideslider.click(function() {
     $(sel).css('top', top);
     $(sel).toggleClass('in');
   });
@@ -38,9 +38,8 @@ $(document).ready(function() {
     }
   });
 
-
   $('.bookmark').click(function() {
-    var temp = JSON.parse(localStorage['sessions']);
+    var temp = JSON.parse(localStorage.sessions);
     var curColor = $(this).css('color');
 
     if (curColor === 'rgb(0, 0, 0)') {
@@ -52,12 +51,13 @@ $(document).ready(function() {
       temp[sessionId] = 1;
     }
 
-    localStorage['sessions'] = JSON.stringify(temp);
+    localStorage.sessions = JSON.stringify(temp);
   });
 
   $('.session-lin').click(function(e) {
-    $(this).parent().parent().find('div.social-buttons').toggle();
     var val = $(this).parent().parent().find('.speakers-inputbox').val();
+
+    $(this).parent().parent().find('div.social-buttons').toggle();
     $(this).parent().parent().find('.speakers-inputbox').val(window.location.href.split('#')[0] + '#' + val.split('#').pop());
     e.stopPropagation();
   });
