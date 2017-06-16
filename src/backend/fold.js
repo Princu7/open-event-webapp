@@ -469,6 +469,7 @@ function extractEventUrls(event, speakers, sponsors, reqOpts, next) {
     featuresection: featuresection,
     sponsorsection: sponsorsection
   };
+  console.log(urls.sponsorsection);
 
   if (reqOpts.assetmode === 'download') {
     const appFolder = reqOpts.email + '/' + slugify(reqOpts.name);
@@ -629,6 +630,7 @@ function foldByLevel(sponsors ,reqOpts, next) {
       callback();
     }
   }, function(){
+    console.log(levelData);
     next(sortLevelData(levelData));
   });
 }
