@@ -866,27 +866,25 @@ function foldBySpeakers(speakers ,sessions, tracksData, reqOpts, next) {
           var thumb = 'images/speakers/thumbnails/' + (speaker.photo).split('/').pop();
         }
         let allSessions = getAllSessions(speaker.sessions, sessions, tracksData);
-        if (allSessions.length) {
-          speakerslist.push({
-            country: speaker.country,
-            featured: speaker.featured,
-            email: speaker.email,
-            facebook: speaker.facebook ,
-            github: speaker.github ,
-            linkedin: speaker.linkedin ,
-            twitter: speaker.twitter ,
-            website: speaker.website ,
-            long_biography: (checkNullHtml(speaker.long_biography)) ? speaker.short_biography : speaker.long_biography,
-            mobile: speaker.mobile,
-            name: speaker.name,
-            thumb: thumb,
-            photo: speaker.photo,
-            organisation: speaker.organisation,
-            sessions: allSessions,
-            speaker_id: speaker.id,
-            nameIdSlug: slugify(speaker.name + speaker.id)
-          });
-        }
+        speakerslist.push({
+          country: speaker.country,
+          featured: speaker.featured,
+          email: speaker.email,
+          facebook: speaker.facebook ,
+          github: speaker.github ,
+          linkedin: speaker.linkedin ,
+          twitter: speaker.twitter ,
+          website: speaker.website ,
+          long_biography: (checkNullHtml(speaker.long_biography)) ? speaker.short_biography : speaker.long_biography,
+          mobile: speaker.mobile,
+          name: speaker.name,
+          thumb: thumb,
+          photo: speaker.photo,
+          organisation: speaker.organisation,
+          sessions: allSessions,
+          speaker_id: speaker.id,
+          nameIdSlug: slugify(speaker.name + speaker.id)
+        });
         speakerslist.sort(byProperty('name'));
       });
       next(speakerslist);
