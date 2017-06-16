@@ -866,7 +866,7 @@ function foldBySpeakers(speakers ,sessions, tracksData, reqOpts, next) {
           var thumb = 'images/speakers/thumbnails/' + (speaker.photo).split('/').pop();
         }
         let allSessions = getAllSessions(speaker.sessions, sessions, tracksData);
-        if(allSessions.length) {
+        if(allSessions.length === 0) {
           console.log("NO sessions");
           console.log(speaker.name);
         }
