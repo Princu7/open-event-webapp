@@ -866,6 +866,10 @@ function foldBySpeakers(speakers ,sessions, tracksData, reqOpts, next) {
           var thumb = 'images/speakers/thumbnails/' + (speaker.photo).split('/').pop();
         }
         let allSessions = getAllSessions(speaker.sessions, sessions, tracksData);
+        if(allSessions.length) {
+          console.log("NO sessions");
+          console.log(speaker.name);
+        }
         speakerslist.push({
           country: speaker.country,
           featured: speaker.featured,
