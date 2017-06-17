@@ -123,7 +123,11 @@
                   <span class="s-popup-header-name"><strong>{{{name}}}</strong>
                     {{#if organisation}}
                         {{#ifvalue organisation notequals=""}}
+                          {{#ifvalue position notequals=""}}
+                            ({{{position}}} {{{organisation}}})
+                          {{else}}
                             ({{{organisation}}})
+                          {{/ifvalue}}
                         {{/ifvalue}}
                     {{/if}}</span>
                 </div>
