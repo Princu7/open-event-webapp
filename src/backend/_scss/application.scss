@@ -1076,8 +1076,9 @@ a {
 
 .speaker-name {
   color: $light-black;
-  height: 22px;
+  height: 30px;
   text-align: center;
+  line-height: 1em;
 }
 
 @media only screen and (max-width: 692px) {
