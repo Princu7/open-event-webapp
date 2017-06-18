@@ -125,6 +125,12 @@ function convertLicenseToCopyright(licence, copyright) {
 }
 
 function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
+  var time = moment('2017-06-26T12:00:00-07:00').format('HH:mm');
+  var time2 = moment.parseZone('2017-03-17T09:00:00+08:00').format('HH:mm');
+  var time3 = moment.parseZone('2017-03-17T14:25:00+08:00').format('HH:mm');
+  console.log(time);
+  console.log(time2);
+  console.log(time3);
   const trackData = new Map();
   const speakersMap = new Map(speakers.map((s) => [s.id, s]));
   const trackDetails = new Object();
