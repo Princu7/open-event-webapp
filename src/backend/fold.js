@@ -30,6 +30,9 @@ function slugify(str) {
 }
 
 function replaceSpaceWithUnderscore(str) {
+  console.log(str);
+  if (str == undefined)
+    console.log("Hell yeah");
   return str.replace(/ /g, '_');
 }
 
@@ -147,6 +150,8 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
     // generate slug/key for session
     const date = moment.parseZone(session.start_time).format('YYYY-MM-DD');
     const trackName = (session.track == null) ? 'deftrack' : session.track.name;
+    //console.log(session.start_time);
+    //console.log(trackName);
     const roomName = session.microlocation.name;
     const session_type = (session.session_type == null) ? '' : session.session_type.name ;
     var trackNameUnderscore = replaceSpaceWithUnderscore(trackName);
@@ -181,6 +186,7 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
       type: session_type,
       location: roomName,
       speakers_list: session.speakers.map((speaker) => {
+        console.log(speaker);
         let spkr = speakersMap.get(speaker.id);
         if(spkr.photo){
           spkr.thumb = 'images/speakers/thumbnails/' + (spkr.photo).split('/').pop();

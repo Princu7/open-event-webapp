@@ -75,14 +75,20 @@ function minifyHtml(file) {
 }
 
 function transformData(sessions, speakers, event, sponsors, tracksData, roomsData, reqOpts, next) {
+  console.log("Checkpoint 0");
   fold.foldByTrack(sessions, speakers, tracksData, reqOpts, function(tracks) {
+    console.log("Checkpoint 1");
     const days = fold.foldByDate(tracks);
     const sociallinks = fold.createSocialLinks(event);
+    console.log("Checkpoint 2");
     fold.extractEventUrls(event, speakers, sponsors, reqOpts, function(eventurls){
+      console.log("Checkpoint 3");
       const copyright = fold.getCopyrightData(event);
       fold.foldByLevel(sponsors, reqOpts, function(sponsorpics){
+        console.log("Checkpoint 4");
         const roomsinfo = fold.foldByRooms(roomsData, sessions, speakers, tracksData);
         fold.foldBySpeakers(speakers, sessions, tracksData, reqOpts, function(speakerslist){
+          console.log("Checkpoint 5");
           const apptitle = fold.getAppName(event);
           const timeList = fold.foldByTime(sessions, speakers, tracksData);
           const metaauthor = fold.getOrganizerName(event);
