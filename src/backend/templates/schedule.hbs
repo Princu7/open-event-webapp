@@ -107,16 +107,16 @@
 
               <div class="tracks col-xs-10 col-sm-10 col-md-10">
                 {{#sessions}}
-                <div class="track-inline" id="{{session_id}}">
+                <div class="track-inline" id="{{session_id}}" style="margin-bottom:20px">
                   <a class="anchor" id="s-{{session_id}}"></a>
                   <div class="schedule-container">
                     <div class="padding-right-zero">
                       {{#if ../../../mode}}
                         <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
-                          class="margin-right-zero sizeevent event"  data-toggle="collapse">
+                          class="margin-zero sizeevent event"  data-toggle="collapse">
                       {{else}}
                         <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
-                          class="margin-right-zero sizeevent event"  data-toggle="collapse"
+                          class="margin-zero sizeevent event"  data-toggle="collapse"
                           data-target="#desc-{{session_id}}"
                           aria-expanded="false"
                           aria-controls="desc-{{session_id}}">
@@ -130,10 +130,8 @@
                           </i>
                         </a>
                       </h4>
-                      <div id="desc-{{session_id}}" class="collapse">
-                        {{#ifvalue description notequals=""}}
-                          {{{description}}}
-                        {{/ifvalue}}
+                      <div id="desc-{{session_id}}" class="collapse" style="padding-top:20px">
+                        {{{description}}}
                         {{#if audio}}
                           <audio controls="" preload="none" id="audio-block">
                             <source src="{{ audio }}">
