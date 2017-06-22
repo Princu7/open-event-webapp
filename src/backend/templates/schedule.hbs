@@ -117,7 +117,7 @@
                       {{else}}
                         <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
                           class="margin-right-zero sizeevent event"  data-toggle="collapse"
-                          data-target="#desc-{{session_id}} .collapse"
+                          data-target="#desc-{{session_id}}"
                           aria-expanded="false"
                           aria-controls="desc-{{session_id}}">
                       {{/if}}
@@ -130,17 +130,19 @@
                           </i>
                         </a>
                       </h4>
-                      <div id="desc-{{session_id}}">
-                        <div class="collapse">
+                      <div id="desc-{{session_id}}" class="collapse">
+                        {{#ifvalue description notequals=""}}
                           {{{description}}}
-                          {{#if audio}}
-                            <audio controls="" preload="none" id="audio-block">
+                        {{/ifvalue}}
+                        {{#if audio}}
+                          <audio controls="" preload="none" id="audio-block">
                             <source src="{{ audio }}">
-                            </audio>
-                          {{/if}}
-                        </div>
-                        <hr class="clear-both collapse">
-                        <div class="session-speakers-list collapse"
+                          </audio>
+                        {{/if}}
+                        {{#ifvalue description notequals=""}}
+                          <hr class="clear-both">
+                        {{/ifvalue}}
+                        <div class="session-speakers-list"
                           aria-expanded="false"
                           aria-controls="desc-{{session_id}}">
                           {{#each speakers_list}}
