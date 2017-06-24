@@ -95,132 +95,130 @@
 
           {{#timeList}}
            <div class="{{slug}} day-filter">
-            <div class="col-md-12 paddingzero">
-              <h4 class="text">{{date}}</h4>
-            </div>
+             <div class="col-md-12 paddingzero">
+               <h4 class="text">{{date}}</h4>
+             </div>
             {{#times}}
             <div class="time-filter">
-            <div class="row">
-              <div class="eventtime col-xs-2 col-sm-2 col-md-2">
-                <span>{{caption}}</span>
-              </div>
+              <div class="row">
+                <div class="eventtime col-xs-2 col-sm-2 col-md-2">
+                  <span>{{caption}}</span>
+                </div>
 
-              <div class="tracks col-xs-10 col-sm-10 col-md-10">
-                {{#sessions}}
-                <div class="track-inline" id="{{session_id}}" style="margin-bottom:20px">
-                  <a class="anchor" id="s-{{session_id}}"></a>
-                  <div class="schedule-container">
-                    <div class="padding-right-zero">
-                      {{#if ../../../mode}}
-                        <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
+                <div class="tracks col-xs-10 col-sm-10 col-md-10">
+                  {{#sessions}}
+                    <div class="track-inline" id="{{session_id}}">
+                      <a class="anchor" id="s-{{session_id}}"></a>
+                      <div class="padding-right-zero">
+                          {{#if ../../../mode}}
+                          <div style="background-color:{{{color}}}; color: {{{font_color}}};"
                           class="margin-zero sizeevent event"  data-toggle="collapse">
-                      {{else}}
-                        <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
+                          {{else}}
+                          <div style="background-color:{{{color}}}; color: {{{font_color}}};"
                           class="margin-zero sizeevent event"  data-toggle="collapse"
                           data-target="#desc-{{session_id}}"
                           aria-expanded="false"
                           aria-controls="desc-{{session_id}}">
-                      {{/if}}
-                        {{title}}
-                        {{#if audio}}
-                          <i class="fa fa-music" aria-hidden="true"></i>
-                        {{/if}}
-                        <a class = "bookmark" id = "c{{session_id}}" >
-                          <i class="fa fa-star" aria-hidden="true">
-                          </i>
-                        </a>
-                      </h4>
-                      <div id="desc-{{session_id}}" class="collapse" style="padding-top:20px">
-                        {{{description}}}
-                        {{#if audio}}
-                          <audio controls="" preload="none" id="audio-block">
-                            <source src="{{ audio }}">
-                          </audio>
-                        {{/if}}
-                        {{#ifvalue description notequals=""}}
-                          <hr class="clear-both">
-                        {{/ifvalue}}
-                        <div class="session-speakers-list"
-                          aria-expanded="false"
-                          aria-controls="desc-{{session_id}}">
-                          {{#each speakers_list}}
-                          <a href="speakers.html#{{nameIdSlug}}">
-                            <p class="session-speakers-less">
-                              <p class="session-speakers">
-                              {{#if photo}}
-                                <img onError="this.onerror=null;this.src='images/avatar.png';" data-original="{{{thumb}}}" class="card-img-top speaker-image-large lazy" width="10" height="10"/>
-                              {{else}}
-                                <img class="card-img-top speaker-image-large" src="images/avatar.png"/>
-                              {{/if}}
-                              </p>
-                              <span class="graytext speaker-name">{{name}}</span>
-                            </p>
-                          </a>
-                          {{#if organisation}}
-                          <p class="session-speakers-more">
-                            {{position}} {{organisation}}
-                          </p>
                           {{/if}}
-                          {{#if biography}}
-                            <div class="session-speakers-more">
-                              {{{biography}}}
-                            </div>
-                          {{/if}}
-                          <div class="blacktext session-speaker-social">
-                            <div class="session-speakers-more">
-                              {{#if website}}
-                              <a class="blacktext social speaker-social" href="{{{website}}}"}>
-                                <i class="fa fa-home"></i> Web
-                              </a>&nbsp;
-                              {{/if}}
-                              {{#if github}}
-                              <a class="blacktext social speaker-social" href="{{{github}}}"}>
-                                <i class="fa fa-github"></i> Github
-                              </a>&nbsp;
-                              {{/if}}
-                              {{#if twitter}}
-                              <a class="blacktext social speaker-social" href="{{{twitter}}}"}>
-                                <i class="fa fa-twitter"></i> Twitter
-                              </a>&nbsp;
-                              {{/if}}
-                              {{#if linkedin}}
-                              <a class="blacktext social speaker-social" href="{{{linkedin}}}"}>
-                                <i class="fa fa-linkedin"></i> LinkedIn
-                              </a>&nbsp;
-                              {{/if}}
-                              <a class="session-lin social speaker-social clickable-link">
-                                <i class="fa fa-share"></i> Share
-                              </a>&nbsp;
-                              <div class="social-buttons row">
-                               {{> social}}
-                               <div class="row social-link">
-                                 <input class="speakers-inputbox" type="text" onclick="this.select()" value="base#s-{{../session_id}}" readonly>
-                               </div>
+                            {{title}}
+                            {{#if audio}}
+                              <i class="fa fa-music" aria-hidden="true"></i>
+                            {{/if}}
+                            <a class = "bookmark" id = "c{{session_id}}" >
+                              <i class="fa fa-star" aria-hidden="true">
+                              </i>
+                            </a>
+                          </div>
+                          <div id="desc-{{session_id}}" class="collapse">
+                            {{{description}}}
+                            {{#if audio}}
+                              <audio controls="" preload="none" id="audio-block">
+                                <source src="{{ audio }}">
+                              </audio>
+                            {{/if}}
+                            {{#ifvalue description notequals=""}}
+                              <hr class="clear-both">
+                            {{/ifvalue}}
+                            <div class="session-speakers-list"
+                              aria-expanded="false"
+                              aria-controls="desc-{{session_id}}">
+                              {{#each speakers_list}}
+                                <a href="speakers.html#{{nameIdSlug}}">
+                                  <p class="session-speakers-less">
+                                    <p class="session-speakers">
+                                      {{#if photo}}
+                                        <img onError="this.onerror=null;this.src='images/avatar.png';" data-original="{{{thumb}}}" class="card-img-top speaker-image-large lazy" width="10" height="10"/>
+                                      {{else}}
+                                        <img class="card-img-top speaker-image-large" src="images/avatar.png"/>
+                                      {{/if}}
+                                    </p>
+                                    <span class="graytext speaker-name">{{name}}</span>
+                                  </p>
+                                </a>
+                                {{#if organisation}}
+                                  <p class="session-speakers-more">
+                                    {{position}} {{organisation}}
+                                  </p>
+                                {{/if}}
+                                {{#if biography}}
+                                  <div class="session-speakers-more">
+                                    {{{biography}}}
+                                  </div>
+                                {{/if}}
+                                <div class="blacktext session-speaker-social">
+                                  <div class="session-speakers-more">
+                                    {{#if website}}
+                                      <a class="blacktext social speaker-social" href="{{{website}}}"}>
+                                        <i class="fa fa-home"></i> Web
+                                      </a>&nbsp;
+                                    {{/if}}
+                                    {{#if github}}
+                                      <a class="blacktext social speaker-social" href="{{{github}}}"}>
+                                        <i class="fa fa-github"></i> Github
+                                      </a>&nbsp;
+                                    {{/if}}
+                                    {{#if twitter}}
+                                      <a class="blacktext social speaker-social" href="{{{twitter}}}"}>
+                                        <i class="fa fa-twitter"></i> Twitter
+                                      </a>&nbsp;
+                                    {{/if}}
+                                    {{#if linkedin}}
+                                      <a class="blacktext social speaker-social" href="{{{linkedin}}}"}>
+                                        <i class="fa fa-linkedin"></i> LinkedIn
+                                      </a>&nbsp;
+                                    {{/if}}
+                                    <a class="session-lin social speaker-social clickable-link">
+                                      <i class="fa fa-share"></i> Share
+                                    </a>&nbsp;
+                                    <div class="social-buttons row">
+                                      {{> social}}
+                                      <div class="row social-link">
+                                        <input class="speakers-inputbox" type="text" onclick="this.select()" value="base#s-{{../session_id}}" readonly>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <hr class="clear-both">
+                              {{/each}}
+                              <div class="blacktext">
+                                <p><i>{{location}}</i></p>
+                                <p>{{sessiondate}}, <span>{{start}} - {{end}}</span></p>
+                                <p>
+                                  <ul class="title-inline">
+                                    <li style="background-color:{{{color}}}; color: {{{font_color}}};" class="titlecolor"></li>&nbsp;
+                                    <li class="blacktext">{{tracktitle}}</li>
+                                  </ul>
+                                </p><br>
                               </div>
                             </div>
                           </div>
-                          <hr class="clear-both">
-                          {{/each}}
-                          <div class="blacktext">
-                            <p><i>{{location}}</i></p>
-                            <p>{{sessiondate}}, <span>{{start}} - {{end}}</span></p>
-                            <p>
-                              <ul class="title-inline">
-                                <li style="background-color:{{{color}}}; color: {{{font_color}}};" class="titlecolor"></li>&nbsp;
-                                <li class="blacktext">{{tracktitle}}</li>
-                              </ul>
-                            </p><br>
-                          </div>
-                        </div>
                       </div>
                     </div>
-                  </div>
+                  {{/sessions}}
                 </div>
-                {{/sessions}}
               </div>
             </div>
-            </div>
-            {{/times}}
+          {{/times}}
           </div>
           {{/timeList}}
         </div>
