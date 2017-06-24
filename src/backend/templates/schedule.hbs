@@ -114,7 +114,7 @@
                           <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
                           class="margin-zero sizeevent event"  data-toggle="collapse">
                           {{else}}
-                          <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
+                          <h4 style="background-color:{{{color}}}; color: {{{font_color}}}; margin-bottom: 20px;"
                           class="margin-zero sizeevent event"  data-toggle="collapse"
                           data-target="#desc-{{session_id}}"
                           aria-expanded="false"
@@ -144,24 +144,22 @@
                               aria-controls="desc-{{session_id}}">
                               {{#each speakers_list}}
                                 <a href="speakers.html#{{nameIdSlug}}">
-                                  <p class="session-speakers-less">
-                                    <p class="session-speakers">
-                                      {{#if photo}}
-                                        <img onError="this.onerror=null;this.src='images/avatar.png';" data-original="{{{thumb}}}" class="card-img-top speaker-image-large lazy" width="10" height="10"/>
-                                      {{else}}
-                                        <img class="card-img-top speaker-image-large" src="images/avatar.png"/>
-                                      {{/if}}
-                                    </p>
-                                    <span class="graytext speaker-name">{{name}}</span>
-                                  </p>
+                                  <div style="margin-bottom: 10px">
+                                    {{#if photo}}
+                                      <img onError="this.onerror=null;this.src='images/avatar.png';" data-original="{{{thumb}}}" class="card-img-top speaker-image-large lazy" width="10" height="10"/>
+                                    {{else}}
+                                      <img class="card-img-top speaker-image-large" src="images/avatar.png"/>
+                                    {{/if}}
+                                  </div>
+                                  <div style="margin-bottom: 10px">{{name}}</div>
                                 </a>
                                 {{#if organisation}}
-                                  <p class="session-speakers-more">
+                                  <div class="session-speakers-more" style="margin-bottom: 10px">
                                     {{position}} {{organisation}}
-                                  </p>
+                                  </div>
                                 {{/if}}
                                 {{#if biography}}
-                                  <div class="session-speakers-more">
+                                  <div class="session-speakers-more" style="margin-bottom: 10px">
                                     {{{biography}}}
                                   </div>
                                 {{/if}}
