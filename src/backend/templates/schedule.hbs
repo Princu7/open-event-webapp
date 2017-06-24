@@ -111,10 +111,10 @@
                       <a class="anchor" id="s-{{session_id}}"></a>
                       <div class="padding-right-zero">
                           {{#if ../../../mode}}
-                          <div style="background-color:{{{color}}}; color: {{{font_color}}};"
+                          <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
                           class="margin-zero sizeevent event"  data-toggle="collapse">
                           {{else}}
-                          <div style="background-color:{{{color}}}; color: {{{font_color}}};"
+                          <h4 style="background-color:{{{color}}}; color: {{{font_color}}};"
                           class="margin-zero sizeevent event"  data-toggle="collapse"
                           data-target="#desc-{{session_id}}"
                           aria-expanded="false"
@@ -128,7 +128,7 @@
                               <i class="fa fa-star" aria-hidden="true">
                               </i>
                             </a>
-                          </div>
+                          </h4>
                           <div id="desc-{{session_id}}" class="collapse">
                             {{{description}}}
                             {{#if audio}}
