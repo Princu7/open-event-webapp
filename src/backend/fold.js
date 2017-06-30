@@ -186,7 +186,7 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
       type: session_type,
       location: roomName,
       speakers_list: session.speakers.map((speaker) => {
-        console.log(speaker);
+        console.log(speaker.id);
         let spkr = speakersMap.get(speaker.id);
         if(spkr.photo){
           spkr.thumb = 'images/speakers/thumbnails/' + (spkr.photo).split('/').pop();
