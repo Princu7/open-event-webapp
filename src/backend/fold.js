@@ -177,6 +177,9 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
     if (track == undefined) {
       return;
     }
+    console.log(session.start_time);
+    console.log(session.end_time);
+    console.log("Session id = " + session.id);
     track.sessions.push({
       startDay: moment.parseZone(session.start_time).format('dddd, Do MMM'),
       startDate: moment.parseZone(session.start_time).format('YYYY-MM-DD'),
@@ -186,7 +189,7 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
       type: session_type,
       location: roomName,
       speakers_list: session.speakers.map((speaker) => {
-        console.log(speaker.id);
+        console.log("speakers id = " + speaker.id);
         let spkr = speakersMap.get(speaker.id);
         if(spkr.photo){
           spkr.thumb = 'images/speakers/thumbnails/' + (spkr.photo).split('/').pop();

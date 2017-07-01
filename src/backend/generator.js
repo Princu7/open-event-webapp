@@ -120,6 +120,7 @@ function getJsonData(reqOpts, next) {
       next(null, data);
     });
   } catch (err) {
+    console.log(err);
     return next(err);
   }
 }
