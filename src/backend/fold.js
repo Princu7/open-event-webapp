@@ -136,19 +136,19 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
 
   trackInfo.forEach((track) => {
     trackDetails[track.id] = track.color;
-    trackDetailsFont[track.id] = (track.font_color !== null) ? track.font_color : '#000000';
+    trackDetailsFont[track.id] = (track['font-color'] !== null) ? track['font-color'] : '#000000';
   });
 
   async.eachSeries(sessions,(session,callback) => {
-    if (!session.start_time || (session.microlocation === null) || (session.state === 'pending') || (session.state === 'rejected') || (session.state === 'draft')) {
+    if (!session['starts-at'] || (session.microlocation === null) || (session.state === 'pending') || (session.state === 'rejected') || (session.state === 'draft')) {
       return callback(null);
     }
 
     // generate slug/key for session
-    const date = moment.parseZone(session.start_time).format('YYYY-MM-DD');
+    const date = moment.parseZone(session['starts-at']).format('YYYY-MM-DD');
     const trackName = (session.track == null) ? 'deftrack' : session.track.name;
     const roomName = session.microlocation.name;
-    const session_type = (session.session_type == null) ? '' : session.session_type.name ;
+    const session_type = (session['session-type'] == null) ? '' : session['session-type'].name ;
     var trackNameUnderscore = replaceSpaceWithUnderscore(trackName);
     const slug = date + '-' + trackNameUnderscore;
     let track = null;
@@ -159,8 +159,8 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
         title: session.track.name,
         color: returnTrackColor(trackDetails, (session.track === null) ? null : session.track.id),
         font_color: returnTrackFontColor(trackDetailsFont, (session.track === null) ? null : session.track.id),
-        date: moment.parseZone(session.start_time).format('dddd, Do MMM'),
-        sortKey: moment.parseZone(session.start_time).format('YY-MM-DD'),
+        date: moment.parseZone(session['starts-at']).format('dddd, Do MMM'),
+        sortKey: moment.parseZone(session['starts-at']).format('YY-MM-DD'),
         slug: slug,
         sessions: []
       };
@@ -173,10 +173,10 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
       return;
     }
     track.sessions.push({
-      startDay: moment.parseZone(session.start_time).format('dddd, Do MMM'),
-      startDate: moment.parseZone(session.start_time).format('YYYY-MM-DD'),
-      start: moment.parseZone(session.start_time).format('HH:mm'),
-      end : moment.parseZone(session.end_time).format('HH:mm'),
+      startDay: moment.parseZone(session['starts-at']).format('dddd, Do MMM'),
+      startDate: moment.parseZone(session['starts-at']).format('YYYY-MM-DD'),
+      start: moment.parseZone(session['starts-at']).format('HH:mm'),
+      end : moment.parseZone(session['ends-at']).format('HH:mm'),
       title: session.title,
       type: session_type,
       location: roomName,
@@ -185,35 +185,35 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
         if(spkr.photo){
           spkr.thumb = 'images/speakers/thumbnails/' + (spkr.photo).split('/').pop();
         }
-        if(spkr.short_biography !== '') {
-          spkr.biography = spkr.short_biography;
+        if(spkr['short-biography'] !== '') {
+          spkr.biography = spkr['short-biography'];
         }
         else {
-          spkr.biography = spkr.long_biography;
+          spkr.biography = spkr['long-biography'];
         }
         spkr.nameIdSlug = slugify(spkr.name + spkr.id);
         return spkr;
       }),
-      description: (checkNullHtml(session.long_abstract)) ? session.short_abstract : session.long_abstract,
+      description: (checkNullHtml(session['long-abstract'])) ? session['short-abstract'] : session['long-abstract'],
       session_id: session.id,
-      sign_up: session.signup_url,
-      video: session.video,
-      slides: session.slides,
-      audio: session.audio
+      sign_up: session['signup-url'],
+      video: session['videos-url'],
+      slides: session['slides-url'],
+      audio: session['audios-url']
 
     });
 
     if (reqOpts.assetmode === 'download') {
       const appFolder = reqOpts.email + '/' + slugify(reqOpts.name);
-      if ((session.audio !== null) && (session.audio !== '') ) {
-        if(session.audio.substring(0, 4) === 'http'){
-          distHelper.downloadAudio(appFolder, session.audio, function(audio){
+      if ((session['audios-url'] !== null) && (session['audios-url'] !== '') ) {
+        if(session['audios-url'].substring(0, 4) === 'http'){
+          distHelper.downloadAudio(appFolder, session['audios-url'], function(audio){
             track.sessions.audio = encodeURI(audio);
             callback();
           });
         }
         else if (reqOpts.datasource === 'eventapi') {
-          distHelper.downloadAudio(appFolder, urljoin(reqOpts.apiendpoint,'/', session.audio), function(audio){
+          distHelper.downloadAudio(appFolder, urljoin(reqOpts.apiendpoint,'/', session['audios-url']), function(audio){
             track.sessions.audio = encodeURI(audio);
             callback();
           });
@@ -248,7 +248,7 @@ function foldByTime(sessions, speakers, trackInfo) {
 
   trackInfo.forEach((track) => {
     trackDetails[track.id] = track.color;
-    trackDetailsFont[track.id] = (track.font_color !== null) ? track.font_color : '#000000';
+    trackDetailsFont[track.id] = (track['font-color'] !== null) ? track['font-color'] : '#000000';
   });
 
   sessions.forEach((session) => {
@@ -256,10 +256,10 @@ function foldByTime(sessions, speakers, trackInfo) {
       return;
     }
     const roomName = session.microlocation.name;
-    const session_type = (session.session_type == null) ? ' ' : session.session_type.name ;
-    let date = moment.parseZone(session.start_time).format('YYYY-MM-DD');
-    let startTime = moment.parseZone(session.start_time).format('HH:mm');
-    let endTime = moment.parseZone(session.end_time).format('HH:mm');
+    const session_type = (session['session-type'] == null) ? ' ' : session['session-type'].name ;
+    let date = moment.parseZone(session['starts-at']).format('YYYY-MM-DD');
+    let startTime = moment.parseZone(session['starts-at']).format('HH:mm');
+    let endTime = moment.parseZone(session['ends-at']).format('HH:mm');
     let time = startTime + ' - ' + endTime;
     let speakersNum = session.speakers.length;
     const tracktitle = (session.track == null) ? " " : session.track.name;
@@ -267,7 +267,7 @@ function foldByTime(sessions, speakers, trackInfo) {
     if (!dateMap.has(date)) {
       dateMap.set(date, {
         slug: date,
-        date: moment.parseZone(session.start_time).format('dddd, Do MMM'),
+        date: moment.parseZone(session['starts-at']).format('dddd, Do MMM'),
         times: new Map()
       });
     }
@@ -280,8 +280,8 @@ function foldByTime(sessions, speakers, trackInfo) {
       });
     }
     timeMap.get(time).sessions.push({
-      start: moment.parseZone(session.start_time).format('HH:mm'),
-      end : moment.parseZone(session.end_time).format('HH:mm'),
+      start: moment.parseZone(session['starts-at']).format('HH:mm'),
+      end : moment.parseZone(session['ends-at']).format('HH:mm'),
       color: returnTrackColor(trackDetails, (session.track == null) ? null : session.track.id),
       font_color: returnTrackFontColor(trackDetailsFont, (session.track == null) ? null : session.track.id),
       title: session.title,
@@ -295,13 +295,13 @@ function foldByTime(sessions, speakers, trackInfo) {
         spkr.nameIdSlug = slugify(spkr.name + spkr.id);
         return spkr;
       }),
-      description: (checkNullHtml(session.long_abstract)) ? session.short_abstract : session.long_abstract,
+      description: (checkNullHtml(session['long-abstract'])) ? session['short-abstract'] : session['long-abstract'],
       session_id: session.id,
-      sign_up: session.signup_url,
-      video: session.video,
-      slides: session.slides,
-      audio: session.audio,
-      sessiondate: moment.parseZone(session.start_time).format('dddd, Do MMM'),
+      sign_up: session['signup-url'],
+      video: session['videos-url'],
+      slides: session['slides-url'],
+      audio: session['audios-url'],
+      sessiondate: moment.parseZone(session['starts-at']).format('dddd, Do MMM'),
       tracktitle: tracktitle,
       speakers: speakersNum
     });
@@ -344,11 +344,11 @@ function returnTracknames(sessions, trackInfo) {
 
   trackInfo.forEach((track) => {
     trackDetails[track.id] = track.color;
-    trackDetailsFont[track.id] = (track.font_color !== null) ? track.font_color : '#000000';
+    trackDetailsFont[track.id] = (track['font-color'] !== null) ? track['font-color'] : '#000000';
   });
 
   sessions.forEach((session) => {
-    if (!session.start_time) {
+    if (!session['starts-at']) {
       return;
     }
 
@@ -363,7 +363,7 @@ function returnTracknames(sessions, trackInfo) {
         title: session.track.name,
         color: returnTrackColor(trackDetails, (session.track == null) ? null : session.track.id),
         font_color: returnTrackFontColor(trackDetailsFont, (session.track === null) ? null : session.track.id),
-        sortKey: moment.parseZone(session.start_time).format('YY-MM-DD'),
+        sortKey: moment.parseZone(session['starts-at']).format('YY-MM-DD'),
         slug: slug
       };
       trackData.set(slug, track);
@@ -381,7 +381,7 @@ function returnTracknames(sessions, trackInfo) {
 
 function createSocialLinks(event) {
 
-  const sociallinks = Array.from(event.social_links);
+  const sociallinks = Array.from(event['social-links']);
 
   sociallinks.forEach((link) => {
     link.show = true;
@@ -429,7 +429,7 @@ function createSocialLinks(event) {
 }
 
 function extractEventUrls(event, speakers, sponsors, reqOpts, next) {
-  const sociallinks = Array.from(event.social_links);
+  const sociallinks = Array.from(event['social-links']);
   var sociallink ="";
   var featuresection = 0;
   var sponsorsection = 0;
@@ -445,7 +445,7 @@ function extractEventUrls(event, speakers, sponsors, reqOpts, next) {
     }
   });
   speakers.forEach((speaker) => {
-    if(speaker.featured !== undefined && speaker.featured !==false && speaker.featured===true ) {
+    if(speaker['is-featured'] !== undefined && speaker['is-featured'] !==false && speaker['is-featured']===true ) {
       featuresection++;
     }
   });
@@ -454,25 +454,25 @@ function extractEventUrls(event, speakers, sponsors, reqOpts, next) {
   const twitterLink = arrayTwitterLink[arrayTwitterLink.length - 1];
 
   const urls= {
-    main_page_url: event.event_url,
-    logo_url: event.logo,
+    main_page_url: event['event-url'],
+    logo_url: event['logo-url'],
     background_url: event.background_image,
     background_path: event.background_image,
-    date: moment.parseZone(event.start_time).format('dddd, Do MMM'),
-    time: moment.parseZone(event.start_time).format('HH:mm'),
-    end_date: moment.parseZone(event.end_time).format('dddd, Do MMM'),
-    end_time: moment.parseZone(event.end_time).format('HH:mm'),
+    date: moment.parseZone(event['starts-at']).format('dddd, Do MMM'),
+    time: moment.parseZone(event['starts-at']).format('HH:mm'),
+    end_date: moment.parseZone(event['ends-at']).format('dddd, Do MMM'),
+    end_time: moment.parseZone(event['ends-at']).format('HH:mm'),
     name: event.name,
     description: event.description,
-    location: event.location_name,
+    location: event['location-name'],
     latitude: event.latitude,
     longitude: event.longitude,
     register: event.ticket_url,
     twitterLink: twitterLink,
     tweetUrl: sociallink,
     email: event.email,
-    orgname: event.organizer_name,
-    location_name: event.location_name,
+    orgname: event['organizer-name'],
+    location_name: event['location-name'],
     featuresection: featuresection,
     sponsorsection: sponsorsection
   };
@@ -480,21 +480,21 @@ function extractEventUrls(event, speakers, sponsors, reqOpts, next) {
   if (reqOpts.assetmode === 'download') {
     const appFolder = reqOpts.email + '/' + slugify(reqOpts.name);
 
-    if (event.logo != null && event.logo != '') {
-      if (event.logo.substring(0, 4) === 'http') {
-        distHelper.downloadLogo(appFolder, event.logo, function(result){
+    if (event['logo-url'] != null && event['logo-url'] != '') {
+      if (event['logo-url'].substring(0, 4) === 'http') {
+        distHelper.downloadLogo(appFolder, event['logo-url'], function(result){
           urls.logo_url = encodeURI(result);
         });
       } else if (reqOpts.datasource === 'eventapi') {
-        if (event.logo.charAt(0) == '/') event.logo = event.logo.substr(1);
-        distHelper.downloadLogo(appFolder, urljoin(reqOpts.apiendpoint, event.logo),function(result){
+        if (event['logo-url'].charAt(0) == '/') event['logo-url'] = event['logo-url'].substr(1);
+        distHelper.downloadLogo(appFolder, urljoin(reqOpts.apiendpoint, event['logo-url']),function(result){
           urls.logo_url = encodeURI(result);
         });
       }
       else {
-        let reg = event.logo.split('');
+        let reg = event['logo-url'].split('');
         if(reg[0] =='/'){
-          urls.logo_url = encodeURI(event.logo.substring(1,event.logo.length));
+          urls.logo_url = encodeURI(event['logo-url'].substring(1,event['logo-url'].length));
         }
 
       }
@@ -536,8 +536,8 @@ function extractEventUrls(event, speakers, sponsors, reqOpts, next) {
 }
 
 function getCopyrightData(event) {
-  if(event.licence_details) {
-    return convertLicenseToCopyright(event.licence_details, event.copyright);
+  if(event['licence-details']) {
+    return convertLicenseToCopyright(event['licence-details'], event.copyright);
   } else {
     return event.copyright;
   }
@@ -559,13 +559,13 @@ function foldByLevel(sponsors ,reqOpts, next) {
   let level1=0,level2=0,level3=0;
   const appFolder = reqOpts.email + '/' + slugify(reqOpts.name);
   sponsors.forEach( (sponsor) => {
-    if(sponsor.level==="1" && (sponsor.logo !== null||" ")){
+    if(sponsor.level==="1" && (sponsor['logo'] !== null||" ")){
       level1++;
     }
-    if (sponsor.level==="2" && (sponsor.logo !== null||" ")) {
+    if (sponsor.level==="2" && (sponsor['logo'] !== null||" ")) {
       level2++;
     }
-    if (sponsor.level==="3" && (sponsor.logo !== null||" ")) {
+    if (sponsor.level==="3" && (sponsor['logo'] !== null||" ")) {
       level3++;
     }
 
@@ -582,11 +582,11 @@ function foldByLevel(sponsors ,reqOpts, next) {
       imgsize: '',
       sponsorimg:'',
       name: sponsor.name,
-      logo: sponsor.logo,
+      logo: sponsor['logo'],
       url:  sponsor.url,
       level: sponsor.level,
       description: sponsor.description,
-      type: sponsor.sponsor_type
+      type: sponsor['type']
     };
 
     switch (sponsorItem.level) {
@@ -610,24 +610,24 @@ function foldByLevel(sponsors ,reqOpts, next) {
         sponsorItem.sponsorimg = 'vcenter sponsorimg';
     }
 
-    if (sponsor.logo !== null && sponsor.logo != "") {
-      if (sponsor.logo.substring(0, 4) === 'http') {
-        distHelper.downloadSponsorPhoto(appFolder, sponsor.logo, function(result){
+    if (sponsor['logo'] !== null && sponsor['logo'] != "") {
+      if (sponsor['logo'].substring(0, 4) === 'http') {
+        distHelper.downloadSponsorPhoto(appFolder, sponsor['logo'], function(result){
           sponsorItem.logo = encodeURI(result);
           levelData[sponsor.level].push(sponsorItem);
           callback();
         });
       } else if (reqOpts.datasource === 'eventapi' ) {
-        distHelper.downloadSponsorPhoto(appFolder, urljoin(reqOpts.apiendpoint, sponsor.logo), function(result){
+        distHelper.downloadSponsorPhoto(appFolder, urljoin(reqOpts.apiendpoint, sponsor['logo']), function(result){
           sponsorItem.logo = encodeURI(result);
           levelData[sponsor.level].push(sponsorItem);
           callback();
         });
       }
       else {
-        let reg = sponsor.logo.split('');
+        let reg = sponsor['logo'].split('');
         if(reg[0] =='/'){
-          sponsorItem.logo = encodeURI(sponsor.logo.substring(1,sponsor.logo.length));
+          sponsorItem.logo = encodeURI(sponsor['logo'].substring(1,sponsor['logo'].length));
           levelData[sponsor.level].push(sponsorItem);
           callback();
         }
@@ -648,16 +648,16 @@ function sessionsByRooms(id, sessions, trackInfo) {
 
   trackInfo.forEach((track) => {
     trackDetails[track.id] = track.color;
-    trackDetailsFont[track.id] = (track.font_color !== null) ? track.font_color : '#000000';
+    trackDetailsFont[track.id] = (track['font-color'] !== null) ? track['font-color'] : '#000000';
   });
 
   sessions.forEach((session) => {
 
-    const date = moment.parseZone(session.start_time).format('YYYY-MM-DD');
+    const date = moment.parseZone(session['starts-at']).format('YYYY-MM-DD');
     const slug = date + '-' + session.microlocation.name;
     //if (sessionInRooms.indexOf(Object.values(slug))==-1) {
     if (!DateData.has(slug)) {
-      var dated = moment.parseZone(session.start_time).format('YYYY-MM-DD');
+      var dated = moment.parseZone(session['starts-at']).format('YYYY-MM-DD');
     }
     else {
       dated = "";
@@ -667,11 +667,11 @@ function sessionsByRooms(id, sessions, trackInfo) {
         sessionInRooms.push({
           date: dated ,
           name: session.title,
-          time: moment.parseZone(session.start_time).format('HH:mm'),
+          time: moment.parseZone(session['starts-at']).format('HH:mm'),
           color: returnTrackColor(trackDetails, (session.track === null) ? null : session.track.id),
           font_color: returnTrackFontColor(trackDetailsFont, (session.track === null) ? null : session.track.id)
         });
-        DateData.set(slug,moment.parseZone(session.start_time).format('YYYY-MM-DD'));
+        DateData.set(slug,moment.parseZone(session['starts-at']).format('YYYY-MM-DD'));
       }
     }
 
@@ -690,32 +690,32 @@ function foldByRooms(room, sessions, speakers, trackInfo) {
 
   trackInfo.forEach((track) => {
     trackDetails[track.id] = track.color;
-    trackDetailsFont[track.id] = (track.font_color !== null) ? track.font_color : '#000000';
+    trackDetailsFont[track.id] = (track['font-color'] !== null) ? track['font-color'] : '#000000';
   });
 
   sessions.forEach((session) => {
-    if (!session.start_time || (session.microlocation === null) || (session.state === 'pending') || (session.state === 'rejected') || (session.state === 'draft')) {
+    if (!session['starts-at'] || (session.microlocation === null) || (session.state === 'pending') || (session.state === 'rejected') || (session.state === 'draft')) {
       return;
     }
 
     // generate slug/key for session
-    const date = moment.parseZone(session.start_time).format('YYYY-MM-DD');
+    const date = moment.parseZone(session['starts-at']).format('YYYY-MM-DD');
     const roomName = session.microlocation.name;
     const slug = date ;
     const tracktitle = (session.track == null) ? " " : session.track.name;
-    const start = moment.parseZone(session.start_time).format('HH:mm');
-    const end = moment.parseZone(session.end_time).format('HH:mm');
+    const start = moment.parseZone(session['starts-at']).format('HH:mm');
+    const end = moment.parseZone(session['ends-at']).format('HH:mm');
 
     let room = null;
 
     // set up room if it does not exist
     if (!roomData.has(slug) && (session.microlocation != null)) {
       room = {
-        date: moment.parseZone(session.start_time).format('dddd, Do MMM'),
-        sortKey: moment.parseZone(session.start_time).format('YY-MM-DD'),
+        date: moment.parseZone(session['starts-at']).format('dddd, Do MMM'),
+        sortKey: moment.parseZone(session['starts-at']).format('YY-MM-DD'),
         slug: slug,
-        start_time: start,
-        end_time: end,
+       ['starts-at']: start,
+       ['ends-at']: end,
         timeLine: [],
         sessions: []
       };
@@ -737,12 +737,12 @@ function foldByRooms(room, sessions, speakers, trackInfo) {
       venue = session.microlocation.name;
     }
 
-    if(room.start_time == slug || room.start_time > start ) {
-      room.start_time = start;
+    if(room['starts-at'] == slug || room['starts-at'] > start ) {
+      room['starts-at'] = start;
     }
 
-    if(room.end_time == slug || room.end_time < end ) {
-      room.end_time = end;
+    if(room['ends-at'] == slug || room['ends-at'] < end ) {
+      room['ends-at'] = end;
     }
 
     room.sessions.push({
@@ -752,28 +752,28 @@ function foldByRooms(room, sessions, speakers, trackInfo) {
       venue: venue,
       end : end,
       title: session.title,
-      type: (session.session_type == null) ? '' : session.session_type.name,
-      description: (checkNullHtml(session.long_abstract)) ? session.short_abstract : session.long_abstract,
+      type: (session['session-type'] == null) ? '' : session['session-type'].name,
+      description: (checkNullHtml(session['long-abstract'])) ? session['short-abstract'] : session['long-abstract'],
       session_id: session.id,
-      audio:session.audio,
+      audio:session['audios-url'],
       speakers_list: session.speakers.map((speaker) => {
         let spkr = speakersMap.get(speaker.id);
         if(spkr.photo){
           spkr.thumb = 'images/speakers/thumbnails/' + (spkr.photo).split('/').pop();
         }
-        if(spkr.short_biography !== '') {
-          spkr.biography = spkr.short_biography;
+        if(spkr['short-biography'] !== '') {
+          spkr.biography = spkr['short-biography'];
         }
         else {
-          spkr.biography = spkr.long_biography;
+          spkr.biography = spkr['long-biography'];
         }
         spkr.nameIdSlug = slugify(spkr.name + spkr.id);
         return spkr;
       }),
       tracktitle: tracktitle,
-      sessiondate: moment.parseZone(session.start_time).format('dddd, Do MMM'),
+      sessiondate: moment.parseZone(session['starts-at']).format('dddd, Do MMM'),
       roomname: roomName,
-      sortKey: venue + moment.parseZone(session.start_time).format('HH:mm')
+      sortKey: venue + moment.parseZone(session['starts-at']).format('HH:mm')
     });
   });
 
@@ -785,8 +785,8 @@ function foldByRooms(room, sessions, speakers, trackInfo) {
     // sort all sessions in each day by 'venue + date'
     roomsDetail[i].sessions.sort(byProperty('sortKey'));
     roomsDetail[i].venue = [];
-    let startTime = roomsDetail[i].start_time;
-    let endTime = roomsDetail[i].end_time;
+    let startTime = roomsDetail[i]['starts-at'];
+    let endTime = roomsDetail[i]['ends-at'];
     let timeinfo = createTimeLine(startTime, endTime);
     roomsDetail[i].timeline = timeinfo.timeline;
     roomsDetail[i].height = timeinfo.height;
@@ -832,7 +832,7 @@ function getAppName(event) {
 }
 
 function getOrganizerName(event) {
-  const name = event.organizer_name;
+  const name = event['organizer-name'];
   return name;
 }
 
@@ -876,14 +876,14 @@ function foldBySpeakers(speakers ,sessions, tracksData, reqOpts, next) {
         if (allSessions.length) {
           speakerslist.push({
             country: speaker.country,
-            featured: speaker.featured,
+            featured: speaker['is-featured'],
             email: speaker.email,
             facebook: speaker.facebook ,
             github: speaker.github ,
             linkedin: speaker.linkedin ,
             twitter: speaker.twitter ,
             website: speaker.website ,
-            long_biography: (checkNullHtml(speaker.long_biography)) ? speaker.short_biography : speaker.long_biography,
+            long_biography: (checkNullHtml(speaker['long-biography'])) ? speaker['short-biography'] : speaker['long-biography'],
             mobile: speaker.mobile,
             name: speaker.name,
             thumb: thumb,
@@ -910,7 +910,7 @@ function getAllSessions(speakerid , session, trackInfo){
 
   trackInfo.forEach((track) => {
     trackDetails[track.id] = track.color;
-    trackDetailsFont[track.id] = (track.font_color !== null) ? track.font_color : '#000000';
+    trackDetailsFont[track.id] = (track['font-color'] !== null) ? track['font-color'] : '#000000';
   });
 
   const sessionsMap = new Map(session.map((s) => [s.id, s]));
@@ -931,11 +931,11 @@ function getAllSessions(speakerid , session, trackInfo){
     const roomname = (session.detail == null || session.detail.microlocation == null) ?' ': session.detail.microlocation.name;
     if(session.detail !== undefined ) {
       speakersession.push({
-        sortKey :  moment.parseZone(session.detail.start_time).format('YYYY-MM-DD HH:MM'),
-        start: moment.parseZone(session.detail.start_time).format('HH:mm'),
-        end:   moment.parseZone(session.detail.end_time).format('HH:mm'),
+        sortKey :  moment.parseZone(session.detail['starts-at']).format('YYYY-MM-DD HH:MM'),
+        start: moment.parseZone(session.detail['starts-at']).format('HH:mm'),
+        end:   moment.parseZone(session.detail['ends-at']).format('HH:mm'),
         title: session.detail.title,
-        date: moment.parseZone(session.detail.start_time).format('ddd, Do MMM'),
+        date: moment.parseZone(session.detail['starts-at']).format('ddd, Do MMM'),
         color: returnTrackColor(trackDetails, (session.detail.track === null) ? null : session.detail.track.id),
         font_color: returnTrackFontColor(trackDetailsFont, (session.detail.track === null) ? null : session.detail.track.id),
         microlocation: roomname,
