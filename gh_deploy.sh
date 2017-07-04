@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset
 
-if [ "$TRAVIS_BRANCH" != "development" ]
-then
-  echo "This commit was made against the $TRAVIS_BRANCH and not the master! No deploy!"
-  exit 0
-fi
 
 rev=$(git rev-parse --short HEAD)
 
@@ -20,7 +15,6 @@ git remote add upstream "https://$GH_TOKEN@github.com/"${TRAVIS_REPO_SLUG}".git"
 git fetch upstream
 git reset upstream/gh-pages
 
-echo $GH_CNAME > CNAME
 
 touch .
 
