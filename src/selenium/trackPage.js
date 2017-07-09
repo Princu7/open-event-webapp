@@ -22,7 +22,7 @@ TrackPage.checkIsolatedBookmark = function() {
 
   // Bookmark the sessions, scrolls down the page and then count the number of visible session elements
   return self.toggleSessionBookmark(sessionIdsArr).then(self.toggleStarredButton.bind(self)).then(function() {
-    return self.driver.executeScript(scrollDown).then(self.getNoOfVisibleSessionElems.bind(self));
+    return self.driver.executeScript('window.scrollTo(0, 400)').then(self.getNoOfVisibleSessionElems.bind(self));
   });
 };
 
