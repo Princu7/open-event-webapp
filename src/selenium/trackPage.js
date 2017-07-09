@@ -4,9 +4,6 @@ var until = require('selenium-webdriver').until;
 
 var TrackPage = Object.create(BasePage);
 
-function scrollDown() {
-  window.scrollTo(0, arguments[0]);
-}
 
 TrackPage.getNoOfVisibleSessionElems = function() {
   return this.findAll(By.className('room-filter')).then(this.getElemsDisplayStatus).then(function(displayArr) {
@@ -19,9 +16,13 @@ TrackPage.checkIsolatedBookmark = function() {
   var sessionIdsArr = ['3014', '3015'];
   var self = this;
 
+  function scrollDown() {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
   // Bookmark the sessions, scrolls down the page and then count the number of visible session elements
   return self.toggleSessionBookmark(sessionIdsArr).then(self.toggleStarredButton.bind(self)).then(function() {
-    return self.driver.executeScript(scrollDown, 400).then(self.getNoOfVisibleSessionElems.bind(self));
+    return self.driver.executeScript(scrollDown).then(self.getNoOfVisibleSessionElems.bind(self));
   });
 };
 
