@@ -10,4 +10,11 @@ EventPage.getEventName = function() {
   });
 };
 
+EventPage.scrollDown = function() {
+  function scrollDown() {
+    window.scrollTo(0, arguments[0]);
+  }
+  return this.driver.executeScript(scrollDown, 800);
+};
+
 module.exports = EventPage;
