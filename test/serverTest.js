@@ -12,25 +12,25 @@ var By = webdriver.By;
 
 describe('generate', function() {
   describe('.create different event sites and copy assets of overview site', function() {
-    //this.timeout(800000);
+    this.timeout(800000);
 
-    //it('should generate the FOSSASIA Summit 2014', function(done) {
-      //var data = {};
+    it('should generate the FOSSASIA Summit 2014', function(done) {
+      var data = {};
 
-      //data.body = {
-        //"email": "a@a.com",
-        //"name": "Open Event",
-        //"apiendpoint": "https://raw.githubusercontent.com/fossasia/open-event/master/sample/FOSSASIA14/",
-        //"datasource": "eventapi",
-        //"assetmode" : "download",
-      //};
+      data.body = {
+        "email": "a@a.c",
+        "name": "Open Event",
+        "apiendpoint": "https://raw.githubusercontent.com/fossasia/open-event/master/sample/FOSSASIA14/",
+        "datasource": "eventapi",
+        "assetmode" : "download",
+      };
 
-      //generator.createDistDir(data, 'Socket', function(appFolder) {
-        //assert.equal(appFolder, "a@a.com/FOSSASIA2014");
-        //done();
-      //});
+      generator.createDistDir(data, 'Socket', function(appFolder) {
+        assert.equal(appFolder, "a@a.com/FOSSASIA2014");
+        done();
+      });
 
-    //});
+    });
 
   });
 });
@@ -65,8 +65,8 @@ describe("Running Selenium tests on Chrome Driver", function() {
 
     before(function() {
       //eventPage.init(driver);
-      //eventPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIA2014');
-      driver.get('http://localhost:5000/live/preview/a@a.c/FOSSASIA2016');
+      //eventPage.visit('http://localhost:5000/live/preview/a@a.c/FOSSASIA2016');
+      driver.get('http://localhost:5000/live/preview/a@a.c/FOSSASIA2014');
     });
 
     //it('Checking the title of the page', function(done) {
@@ -85,7 +85,7 @@ describe("Running Selenium tests on Chrome Driver", function() {
       driver.executeScript(scroll, 800).then(function(offset) {
         console.log(offset);
         done();
-      })
+      });
 
       //eventPage.checkDownButton().then(function(offset) {
         //console.log(offset);
