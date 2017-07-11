@@ -26,7 +26,7 @@ describe('generate', function() {
       };
 
       generator.createDistDir(data, 'Socket', function(appFolder) {
-        assert.equal(appFolder, "a@a.com/FOSSASIA2014");
+        assert.equal(appFolder, "a@a.c/FOSSASIA2014");
         done();
       });
 
