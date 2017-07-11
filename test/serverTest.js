@@ -1,5 +1,6 @@
 const assert = require('chai').assert;
 var webdriver = require('selenium-webdriver');
+var eventPage = require('../src/selenium/eventPage.js')
 
 describe("Running Selenium tests on Chrome Driver", function() {
   this.timeout(600000);
@@ -30,18 +31,23 @@ describe("Running Selenium tests on Chrome Driver", function() {
   describe('Testing event page', function() {
 
     before(function() {
-      driver.get('http://reddit.com');
+      //driver.get('http://reddit.com');
+      eventPage.init(driver);
+      eventPage.visit('http://reddit.com');
     });
 
     it('Checking the scroll', function(done) {
-      function scrollDown() {
-        window.scrollTo(0, arguments[0]);
-      }
+      //function scrollDown() {
+        //window.scrollTo(0, arguments[0]);
+      //}
 
-      driver.executeScript(scrollDown, 800).then(function() {
+      //driver.executeScript(scrollDown, 800).then(function() {
+        //done();
+      //});
+      eventPage.scrollDown().then(function() {
+        console.log("Hello from the other side. I just wish I get fucked and die");
         done();
       });
-
     });
   });
 });
