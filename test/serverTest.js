@@ -65,39 +65,44 @@ describe("Running Selenium tests on Chrome Driver", function() {
   describe('Testing event page', function() {
 
     before(function() {
-      //eventPage.init(driver);
-      //eventPage.visit('http://localhost:5000/live/preview/a@a.c/FOSSASIA2016');
-      driver.get('http://localhost:5000/live/preview/a@a.c/FOSSASIA2014');
+      eventPage.init(driver);
+      eventPage.visit('http://localhost:5000/live/preview/a@a.c/FOSSASIA2016');
+      //driver.get('http://localhost:5000/live/preview/a@a.c/FOSSASIA2014');
     });
 
     it('Checking the title of the page', function(done) {
-      driver.wait(until.elementLocated(By.css('h1'), 20000));
+      //driver.wait(until.elementLocated(By.css('h1'), 20000));
 
-      driver.findElement(By.css('h1')).getText().then(function(text) {
+      //driver.findElement(By.css('h1')).getText().then(function(text) {
+        //console.log(text);
+        //assert.equal(text, "FOSSASIA 2014");
+        //done();
+      //})
+      eventPage.getEventName().then(function(text) {
         console.log(text);
         assert.equal(text, "FOSSASIA 2014");
         done();
-      })
+      });
     });
 
     it('Check whether the down button is working or not', function(done) {
 
-      function scroll() {
-        window.scrollTo(0, arguments[0]);
-      }
+      //function scroll() {
+        //window.scrollTo(0, arguments[0]);
+      //}
 
-      driver.executeScript(scroll, 800).then(function(offset) {
-        console.log(offset);
-        done();
-      });
-
-      //eventPage.checkDownButton().then(function(offset) {
+      //driver.executeScript(scroll, 800).then(function(offset) {
         //console.log(offset);
-        ////assert.equal(offset, 0);
         //done();
-      //}).catch(function(err) {
-        //done(err);
       //});
+
+      eventPage.checkDownButton().then(function(offset) {
+        console.log(offset);
+        assert.equal(offset, 0);
+        done();
+      }).catch(function(err) {
+        done(err);
+      });
     });
 
   });

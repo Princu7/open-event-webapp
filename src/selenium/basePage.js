@@ -64,23 +64,23 @@ var BasePage = {
     return Promise.all(promiseArr);
   },
 
+  scrollDown: function() {
+    window.scrollTo(0, arguments[0]);
+  },
+
   checkDownButton: function() {
     var self = this;
 
-    function scrollDown() {
-      window.scrollTo(0, arguments[0]);
-    }
+    //function scrollPosition() {
+    //return window.scrollY;
+    //}
 
-    function scrollPosition() {
-      return window.scrollY;
-    }
-
-    return self.driver.executeScript(scrollDown, 800);
+    return self.driver.executeScript(self.scrollDown, 800);
 
     //return self.driver.executeScript(scrollDown, 800).then(self.find.bind(self, By.id('down-button'))).then(function(el) {
-      //return el.click().then(self.driver.sleep(1000)).then(function() {
-        //return self.driver.executeScript(scrollPosition);
-      //});
+    //return el.click().then(self.driver.sleep(1000)).then(function() {
+    //return self.driver.executeScript(scrollPosition);
+    //});
     //});
   }
 
