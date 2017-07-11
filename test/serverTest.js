@@ -67,7 +67,7 @@ describe("Running Selenium tests on Chrome Driver", function() {
 
     it('Checking the scroll', function(done) {
       function scrollDown() {
-        window.scrollTo(0, 800);
+        window.scrollTo(0, arguments[0]);
       }
 
       driver.executeScript(scrollDown, 800).then(function() {
