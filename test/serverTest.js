@@ -37,14 +37,14 @@ describe("Running Selenium tests on Chrome Driver", function() {
     });
 
     it('Checking the scroll', function(done) {
-      //function scrollDown() {
-        //window.scrollTo(0, arguments[0]);
-      //}
+      function scroll() {
+        window.scrollTo(0, arguments[0]);
+      }
 
       //driver.executeScript(scrollDown, 800).then(function() {
         //done();
       //});
-      eventPage.scrollDown().then(function() {
+      eventPage.scrollDown(scroll).then(function() {
         console.log("Hello from the other side. I just wish I get fucked and die");
         done();
       });

@@ -8,11 +8,11 @@ var EventPage = {
     return this.driver.get(url);
   },
 
-  scrollDown: function() {
-    function scrollDown() {
-      window.scrollTo(0, arguments[0]);
-    }
-    return this.driver.executeScript(scrollDown, 800);
+  scrollDown: function(func) {
+    //function scroll() {
+      //window.scrollTo(0, arguments[0]);
+    //}
+    return this.driver.executeScript(func, 800);
   }
 };
 
