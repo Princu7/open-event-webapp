@@ -1,13 +1,6 @@
-/**
- * Created by championswimmer on 10/7/16.
- */
-
-/* eslint no-undef: 0 */
-
 'use strict';
 
 const assert = require('chai').assert;
-
 var fold = require('../src/backend/fold.js');
 var generator = require('../src/backend/generator.js');
 var dist = require('../src/backend/dist.js');
@@ -17,26 +10,23 @@ var eventPage = require('../src/selenium/eventPage.js');
 var trackPage = require('../src/selenium/trackPage.js');
 var By = webdriver.By;
 
-
-
-
 describe('generate', function() {
   describe('.create different event sites and copy assets of overview site', function() {
     this.timeout(800000);
 
-    it('should generate the FOSSASIA Summit 2017', function(done) {
+    it('should generate the FOSSASIA Summit 2014', function(done) {
       var data = {};
 
       data.body = {
         "email": "a@a.com",
         "name": "Open Event",
-        "apiendpoint": "http://eventyay.com/api/v1/events/6",
+        "apiendpoint": "https://raw.githubusercontent.com/fossasia/open-event/master/sample/FOSSASIA14/",
         "datasource": "eventapi",
         "assetmode" : "download",
       };
 
       generator.createDistDir(data, 'Socket', function(appFolder) {
-        assert.equal(appFolder, "a@a.com/FOSSASIASummit");
+        assert.equal(appFolder, "a@a.com/FOSSASIA2014");
         done();
       });
 
@@ -75,12 +65,12 @@ describe("Running Selenium tests on Chrome Driver", function() {
 
     before(function() {
       eventPage.init(driver);
-      eventPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit');
+      eventPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIA2014');
     });
 
     it('Checking the title of the page', function(done) {
       eventPage.getEventName().then(function(eventName) {
-        assert.equal(eventName, "FOSSASIA Summit");
+        assert.equal(eventName, "FOSSASIA 2014");
         done();
       });
     });
@@ -97,4 +87,3 @@ describe("Running Selenium tests on Chrome Driver", function() {
   });
 
 });
-
