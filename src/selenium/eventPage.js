@@ -10,4 +10,24 @@ EventPage.getEventName = function() {
   });
 };
 
+EventPage.checkDownButton = function() {
+  var self = this;
+
+  function scrollDown() {
+    window.scrollTo(0, arguments[0]);
+  }
+
+  //function scrollPosition() {
+  //return window.scrollY;
+  //}
+
+  return self.driver.executeScript(scrollDown, 800);
+
+  //return self.driver.executeScript(scrollDown, 800).then(self.find.bind(self, By.id('down-button'))).then(function(el) {
+  //return el.click().then(self.driver.sleep(1000)).then(function() {
+  //return self.driver.executeScript(scrollPosition);
+  //});
+  //});
+};
+
 module.exports = EventPage;
