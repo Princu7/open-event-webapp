@@ -357,22 +357,22 @@ describe("Running Selenium tests on Chrome Driver", function() {
 
   });
 
-  describe('Testing tracks page', function() {
+  //describe('Testing tracks page', function() {
 
-    before(function() {
-      trackPage.init(driver);
-      trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
-    });
+    //before(function() {
+      //trackPage.init(driver);
+      //trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
+    //});
 
-    it('Checking the bookmark toggle', function(done) {
-      trackPage.checkIsolatedBookmark().then(function(num) {
-        assert.equal(num, 2);
-        done();
-      }).catch(function(err) {
-        done(err);
-      });
-    });
+    //it('Checking the bookmark toggle', function(done) {
+      //trackPage.checkIsolatedBookmark().then(function(num) {
+        //assert.equal(num, 2);
+        //done();
+      //}).catch(function(err) {
+        //done(err);
+      //});
+    //});
 
-  });
+  //});
 });
 

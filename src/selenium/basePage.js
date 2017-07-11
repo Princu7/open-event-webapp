@@ -68,14 +68,14 @@ var BasePage = {
     var self = this;
 
     function scrollDown() {
-      window.scrollTo(0, document.body.scrollHeight);
+      window.scrollTo(0, arguments[0]);
     }
 
     function scrollPosition() {
       return window.scrollY;
     }
 
-    return self.driver.executeScript(scrollDown).then(self.find.bind(self, By.id('down-button'))).then(function(el) {
+    return self.driver.executeScript(scrollDown, 800).then(self.find.bind(self, By.id('down-button'))).then(function(el) {
       return el.click().then(self.driver.sleep(1000)).then(function() {
         return self.driver.executeScript(scrollPosition);
       });
