@@ -36,7 +36,7 @@ describe("Running Selenium tests on Chrome Driver", function() {
 
     before(function() {
       eventPage.init(driver);
-      eventPage.visit('http://localhost:5000/live/preview/a@a.c/FOSSASIA2016');
+      eventPage.visit('http://localhost:5000/live/preview/a@a.c/FOSSASIA2014');
     });
 
     it('Check whether the down button is working or not', function(done) {
