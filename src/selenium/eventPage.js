@@ -1,4 +1,4 @@
-var EventPage = {
+module.exports = {
 
   init: function(webdriver) {
     this.driver = webdriver;
@@ -15,5 +15,3 @@ var EventPage = {
     return this.driver.executeScript(scroll, 800);
   }
 };
-
-module.exports = EventPage;
