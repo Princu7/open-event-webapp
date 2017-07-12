@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 var webdriver = require('selenium-webdriver');
-var EventPage = require('../src/selenium/eventPage.js')
+var EventPage = require('../src/selenium/eventPage.js');
 var eventPage = Object.create(EventPage);
 
 describe("Running Selenium tests on Chrome Driver", function() {
@@ -15,7 +15,8 @@ describe("Running Selenium tests on Chrome Driver", function() {
           build: process.env.TRAVIS_BUILD_NUMBER,
           username: process.env.SAUCE_USERNAME,
           accessKey: process.env.SAUCE_ACCESS_KEY,
-          browserName: "chrome"
+          browserName: "chrome",
+          platform: "Linux"
         }).build();
     } else {
       driver = new webdriver.Builder()
