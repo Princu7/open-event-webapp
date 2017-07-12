@@ -49,21 +49,13 @@ describe("Running Selenium tests on Chrome Driver", function() {
   describe('Testing event page', function() {
 
     before(function() {
-      //driver.get('http://reddit.com');
       eventPage.init(driver);
       eventPage.visit('http://reddit.com');
     });
 
     it('Checking the scroll', function(done) {
-      //function scroll() {
-        //window.scrollTo(0, arguments[0]);
-      //}
-
-      //driver.executeScript(scrollDown, 800).then(function() {
-        //done();
-      //});
       eventPage.scrollDown().then(function() {
-        console.log("Hello from the other side. I just wish I get fucked and die");
+        console.log("Hello from the other side.");
         done();
       });
     });
