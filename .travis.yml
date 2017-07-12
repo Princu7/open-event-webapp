@@ -22,7 +22,8 @@ install:
   - npm install -g istanbul mocha
   - npm install
 script:
-  - istanbul cover _mocha
+  - istanbul cover _mocha test/serverTest.js
+  - mocha test/seleniumTest.js
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - bash gh_deploy.sh
