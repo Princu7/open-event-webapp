@@ -1,6 +1,7 @@
 const assert = require('chai').assert;
 var webdriver = require('selenium-webdriver');
-var eventPage = require('../src/selenium/eventPage.js')
+var EventPage = require('../src/selenium/eventPage.js')
+var eventPage = Object.create(EventPage);
 
 describe("Running Selenium tests on Chrome Driver", function() {
   this.timeout(600000);
