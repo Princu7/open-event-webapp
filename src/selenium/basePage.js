@@ -134,6 +134,15 @@ var BasePage = {
       });
 
     });
+  },
+
+  resizeWindow: function(width, height) {
+    return this.driver.manage().window().setSize(width, height);
+  },
+
+  checkScrollbar: function() {
+    var scrollVisible =  'return document.documentElement.scrollWidth > document.documentElement.clientWidth';
+    return this.driver.executeScript(scrollVisible);
   }
 
 };

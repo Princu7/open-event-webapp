@@ -342,6 +342,37 @@ describe("Running Selenium tests on Chrome Driver", function() {
       eventPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit');
     });
 
+    describe('Testing page for presence of scrollbars on different screens', function() {
+
+      it('Test on mobile', function(done) {
+        eventPage.resizeWindow(300,600).then(eventPage.checkScrollbar.bind(eventPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+      it('Test on tablets', function(done) {
+        eventPage.resizeWindow(720,500).then(eventPage.checkScrollbar.bind(eventPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+      it('Test on desktops', function(done) {
+        eventPage.resizeWindow(1300, 768).then(eventPage.checkScrollbar.bind(eventPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+    });
+
     it('Checking the broken links in navbar and footer', function(done) {
       eventPage.getNavbarFooterBrokenLinks().then(function(numBrokenLinks) {
         assert.equal(numBrokenLinks, 0);
@@ -382,6 +413,37 @@ describe("Running Selenium tests on Chrome Driver", function() {
     before(function() {
       trackPage.init(driver);
       trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
+    });
+
+    describe('Testing page for presence of scrollbars on different screens', function() {
+
+      it('Test on mobile', function(done) {
+        trackPage.resizeWindow(300,600).then(trackPage.checkScrollbar.bind(trackPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+      it('Test on tablets', function(done) {
+        trackPage.resizeWindow(720,500).then(trackPage.checkScrollbar.bind(trackPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+      it('Test on desktops', function(done) {
+        trackPage.resizeWindow(1300, 768).then(trackPage.checkScrollbar.bind(trackPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
     });
 
     it('Checking search functionality', function(done) {
@@ -429,6 +491,37 @@ describe("Running Selenium tests on Chrome Driver", function() {
     before(function() {
       schedulePage.init(driver);
       schedulePage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/schedule.html');
+    });
+
+    describe('Testing page for presence of scrollbars on different screens', function() {
+
+      it('Test on mobile', function(done) {
+        schedulePage.resizeWindow(300,600).then(schedulePage.checkScrollbar.bind(schedulePage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+      it('Test on tablets', function(done) {
+        schedulePage.resizeWindow(720,500).then(schedulePage.checkScrollbar.bind(schedulePage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+      it('Test on desktops', function(done) {
+        schedulePage.resizeWindow(1300, 768).then(schedulePage.checkScrollbar.bind(schedulePage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
     });
 
     it('Checking search functionality', function(done) {
@@ -532,6 +625,37 @@ describe("Running Selenium tests on Chrome Driver", function() {
     before(function() {
       roomPage.init(driver);
       roomPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/rooms.html');
+    });
+
+    describe('Testing page for presence of scrollbars on different screens', function() {
+
+      it('Test on mobile', function(done) {
+        roomPage.resizeWindow(300,600).then(roomPage.checkScrollbar.bind(roomPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+      it('Test on tablets', function(done) {
+        roomPage.resizeWindow(720,500).then(roomPage.checkScrollbar.bind(roomPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
+      it('Test on desktops', function(done) {
+        roomPage.resizeWindow(1300, 768).then(roomPage.checkScrollbar.bind(roomPage)).then(function(val) {
+          assert.equal(val, false);
+          done();
+        }).catch(function(err) {
+          done(err);
+        });
+      });
+
     });
 
     // Click on the session Elem to collapse
