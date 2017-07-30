@@ -32,59 +32,59 @@
           <input id="search-box" type="text" class="search-box fossasia-filter">
           <label for="search-box"><span class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></span></label>
         </div>
-      <ul class="nav navbar-nav navbar-right">
-        {{#if single_session}}
-          <li class="navlink"><a id="homelink" href="../index.html">Home</a></li>
-        {{else}}
-          <li class="navlink"><a id="homelink" href="index.html">Home</a></li>
-        {{/if}}
-        {{#if timeList}}
+        <ul class="nav navbar-nav navbar-right">
           {{#if single_session}}
-          <li class="navlink"><a id="schedulelink" href="../schedule.html">Schedule</a></li>
+            <li class="navlink"><a id="homelink" href="../index.html">Home</a></li>
           {{else}}
-          <li class="navlink"><a id="schedulelink" href="schedule.html">Schedule</a></li>
+            <li class="navlink"><a id="homelink" href="index.html">Home</a></li>
           {{/if}}
-        {{/if}}
-        {{#if tracks}}
-          {{#if single_session}}
-          <li class="navlink"><a id="trackslink" href="../tracks.html">Tracks</a></li>
-          {{else}}
-          <li class="navlink"><a id="trackslink" href="tracks.html">Tracks</a></li>
+          {{#if timeList}}
+            {{#if single_session}}
+              <li class="navlink"><a id="schedulelink" href="../schedule.html">Schedule</a></li>
+            {{else}}
+              <li class="navlink"><a id="schedulelink" href="schedule.html">Schedule</a></li>
+            {{/if}}
           {{/if}}
-        {{/if}}
-        {{#if roomsinfo}}
-          {{#if single_session}}
-          <li class="navlink"><a id="roomslink" href="../rooms.html">Rooms</a></li>
-          {{else}}
-          <li class="navlink"><a id="roomslink" href="rooms.html">Rooms</a></li>
+          {{#if tracks}}
+            {{#if single_session}}
+              <li class="navlink"><a id="trackslink" href="../tracks.html">Tracks</a></li>
+            {{else}}
+              <li class="navlink"><a id="trackslink" href="tracks.html">Tracks</a></li>
+            {{/if}}
           {{/if}}
-        {{/if}}
-        {{#if speakerslist}}
-          {{#if single_session}}
-          <li class="navlink"><a id="speakerslink" href="../speakers.html">Speakers</a></li>
-          {{else}}
-          <li class="navlink"><a id="speakerslink" href="speakers.html">Speakers</a></li>
+          {{#if roomsinfo}}
+            {{#if single_session}}
+              <li class="navlink"><a id="roomslink" href="../rooms.html">Rooms</a></li>
+            {{else}}
+              <li class="navlink"><a id="roomslink" href="rooms.html">Rooms</a></li>
+            {{/if}}
           {{/if}}
-        {{/if}}
+          {{#if speakerslist}}
+            {{#if single_session}}
+              <li class="navlink"><a id="speakerslink" href="../speakers.html">Speakers</a></li>
+            {{else}}
+              <li class="navlink"><a id="speakerslink" href="speakers.html">Speakers</a></li>
+            {{/if}}
+          {{/if}}
 
-        {{#sociallinks}}
-          {{#if show}}
-            <li class="pull-left social-icons"><a href="{{link}}" id="social-icons"><i class="fa fa-lg fa-{{icon}}" aria-hidden="true" title="{{{icon}}}"></i></a></li>
-          {{/if}}
-        {{/sociallinks}}
+          {{#sociallinks}}
+            {{#if show}}
+              <li class="pull-left social-icons"><a href="{{link}}" id="social-icons"><i class="fa fa-lg fa-{{icon}}" aria-hidden="true" title="{{{icon}}}"></i></a></li>
+            {{/if}}
+          {{/sociallinks}}
 
-      </ul>
-    </nav>
-    <div id="mobile-track">
-      {{#tracknames}}
-        {{#if title}}
-          <div style="margin-bottom: 5px; margin-left: 5px;">
-            <span style="background-color: {{color}}; display: inline-block;" class="titlecolor"></span>
+        </ul>
+      </nav>
+      <div id="mobile-track">
+        {{#tracknames}}
+          {{#if title}}
+            <div style="margin-bottom: 5px; margin-left: 5px;">
+              <span style="background-color: {{color}}; display: inline-block;" class="titlecolor"></span>
             <span class="track-name" style="cursor:pointer;">{{title}}</li>
           </div>
-        {{/if}}
-      {{/tracknames}}
+          {{/if}}
+        {{/tracknames}}
+      </div>
     </div>
   </div>
-</div>
 </header>
