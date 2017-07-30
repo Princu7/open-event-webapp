@@ -75,6 +75,16 @@
 
       </ul>
     </nav>
+    <div id="mobile-track">
+      {{#tracknames}}
+        {{#if title}}
+          <div style="margin-bottom: 5px; margin-left: 5px;">
+            <span style="background-color: {{color}}; display: inline-block;" class="titlecolor"></span>
+            <span class="track-name" style="cursor:pointer;">{{title}}</li>
+          </div>
+        {{/if}}
+      {{/tracknames}}
     </div>
   </div>
+</div>
 </header>
