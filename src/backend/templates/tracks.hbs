@@ -339,11 +339,16 @@
                   $(this).hide();
                 }
               });
+              if(flag) {
+                $(this).show();
+              } else {
+                $(this).hide();
+              }
             });
-            if(!flag) {
-              $(this).hide();
-            } else {
+            if(flag) {
               $(this).show();
+            } else {
+              $(this).hide();
             }
           });
           $('html, body').animate({scrollTop: 0}, 500);
