@@ -80,7 +80,7 @@
       </div>
       <div id="session-list" class="container">
         <div class="row">
-          <div id="content-block" class="col-md-9">
+          <div id="content-block" class="col-md-9 col-sm-9">
             <div id="track-list">
               {{#days}}
                <div id="{{firstSlug}}" class="date-filter">
@@ -244,13 +244,13 @@
               {{/days}}
             </div>
           </div>
-          <div class="track-names col-md-3" >
+          <div class="track-names col-md-3 col-sm-3">
             {{#tracknames}}
               {{#if title}}
-                <ul class="title-inline title-legend">
-                  <li style="background-color: {{color}}; color:{{../font_color}};" class="titlecolor"></li>
-                  <li class="track-name" style="cursor:pointer;">{{title}}</li>
-                </ul>
+                <div style="margin-bottom: 5px;">
+                  <span style="background-color: {{color}}; display: inline-block;" class="titlecolor"></span>
+                  <span class="track-name" style="cursor:pointer;">{{title}}</li>
+                </div>
               {{/if}}
             {{/tracknames}}
           </div>
