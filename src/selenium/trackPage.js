@@ -15,9 +15,7 @@ TrackPage.checkIsolatedBookmark = function() {
   // Sample sessions having ids of 3014 and 3015 being checked for the bookmark feature
   var self = this;
   var bookmarkSessionsIdsArr = ['3014', '3015', '2907'];
-  //var bookmarkSessionsIdsArr = ['3014', '3015'];
   var visibleCheckSessionsIdsArr = ['3014', '3015', '2918', '2907'];
-  //var visibleCheckSessionsIdsArr = ['3014', '3015', '2918'];
 
   return self.bookmarkCheck(bookmarkSessionsIdsArr, visibleCheckSessionsIdsArr);
 };
@@ -53,26 +51,12 @@ TrackPage.starredModeThenSearch = function() {
   return self.toggleStarredButton().then(self.search.bind(self, 'wel')).then(self.getElemsDisplayStatus.bind(null, promiseArr));
 };
 
-TrackPage.filterThenGetTracksNum = function(choice) {
-  var self = this;
-  console.log(choice);
-  if (choice == 'true') {
-    console.log("Going inside");
-    return self.find(By.className('track-names')).findElements(By.className('track-name')).then(function(elems) {
-      return elems[16].click().then(self.getNumTracksVisible.bind(self));
-    });
-  } else {
-    return self.find(By.id('clearFilter')).click().then(self.getNumTracksVisible.bind(self));
-  }
-};
-
 TrackPage.filterThenSessionStatus = function(choice) {
   var self = this;
   var idArr = ['3014', '3015', '3018', '2938', '2907', '2941'];
   var promiseArr = idArr.map(function(elem) { return self.find(By.id(elem)); });
 
   if (choice == 'true') {
-    console.log("Going inside");
     return self.find(By.className('track-names')).findElements(By.className('track-name')).then(function(elems) {
       return elems[16].click().then(self.getElemsDisplayStatus.bind(null, promiseArr)).then(function(ans) {
         return self.driver.sleep(1000).then(function() {
