@@ -14,8 +14,10 @@ TrackPage.getNoOfVisibleSessionElems = function() {
 TrackPage.checkIsolatedBookmark = function() {
   // Sample sessions having ids of 3014 and 3015 being checked for the bookmark feature
   var self = this;
-  var bookmarkSessionsIdsArr = ['3014', '3015'];
-  var visibleCheckSessionsIdsArr = ['3014', '3015', '2918'];
+  var bookmarkSessionsIdsArr = ['3014', '3015', '2907'];
+  //var bookmarkSessionsIdsArr = ['3014', '3015'];
+  var visibleCheckSessionsIdsArr = ['3014', '3015', '2918', '2907'];
+  //var visibleCheckSessionsIdsArr = ['3014', '3015', '2918'];
 
   return self.bookmarkCheck(bookmarkSessionsIdsArr, visibleCheckSessionsIdsArr);
 };
@@ -64,16 +66,31 @@ TrackPage.filterThenGetTracksNum = function(choice) {
   }
 };
 
+TrackPage.filterThenSessionStatus = function(choice) {
+  var self = this;
+  var idArr = ['3014', '3015', '3018', '2938', '2907', '2941'];
+  var promiseArr = idArr.map(function(elem) { return self.find(By.id(elem)); });
+
+  if (choice == 'true') {
+    console.log("Going inside");
+    return self.find(By.className('track-names')).findElements(By.className('track-name')).then(function(elems) {
+      return elems[16].click().then(self.getElemsDisplayStatus.bind(null, promiseArr));
+    });
+  } else {
+    return self.find(By.id('clearFilter')).click().then(self.getElemsDisplayStatus.bind(null, promiseArr));
+  }
+};
+
 TrackPage.searchThenSessionStatus = function(text) {
   var self = this;
-  var idArr = ['3014', '3015', '3018', '2938', '2907'];
+  var idArr = ['3014', '3015', '3018', '2938', '2907', '2941'];
   var promiseArr = idArr.map(function(elem) { return self.find(By.id(elem)); });
   return self.resetSearchBar().then(self.search.bind(self, text)).then(self.getElemsDisplayStatus.bind(null, promiseArr));
 };
 
 TrackPage.starredThenSessionStatus = function() {
   var self = this;
-  var idArr = ['3014', '3015', '3018', '2938', '2907'];
+  var idArr = ['3014', '3015', '3018', '2938', '2907', '2941'];
   var promiseArr = idArr.map(function(elem) { return self.find(By.id(elem)); });
   return self.toggleStarredButton().then(self.getElemsDisplayStatus.bind(null, promiseArr));
 };
@@ -102,16 +119,16 @@ TrackPage.getNumTracksVisible = function() {
   return numPromise;
 };
 
-TrackPage.filterStarSearch = function(steps) {
+TrackPage.filterCombination = function(steps) {
   var self = this;
   var resultsArr = [];
   var stepObjectFunc = {
     'filter': function() {
-      return self.filterThenGetTracksNum('true');
+      return self.filterThenSessionStatus('true');
     },
 
     'unfilter': function() {
-      return self.filterThenGetTracksNum('false');
+      return self.filterThenSessionStatus('false');
     },
 
     'search': function() {
@@ -132,12 +149,7 @@ TrackPage.filterStarSearch = function(steps) {
 
   };
 
-  var promArr = [];
-  promArr = steps.map(function(step) {
-    return stepObjectFunc[step]();
-  });
-
-  Promise.series = function series(arrayOfPromises) {
+  var serialPromise = function series(arrayOfPromises) {
     var results = [];
     return arrayOfPromises.reduce(function(seriesPromise, promise) {
       return seriesPromise.then(function() {
@@ -152,23 +164,12 @@ TrackPage.filterStarSearch = function(steps) {
     });
   };
 
-  return Promise.series(promArr).then(function(results) {
-      // do stuff with results here
-    return results;
+  var stepsArr = [];
+  stepsArr = steps.map(function(step) {
+    return stepObjectFunc[step]();
   });
 
-  //var resPromise = new Promise(function(resolve) {
-    //stepObjectFunc[steps[0]]().then(function(res) {
-      //resultsArr.push(res);
-      //stepObjectFunc[steps[1]]().then(function(res) {
-        //resultsArr.push(res);
-      //})
-    //})
-  //})
-
-
-  //return resPromise;
+  return serialPromise(stepsArr);
 };
-
 
 module.exports = TrackPage;

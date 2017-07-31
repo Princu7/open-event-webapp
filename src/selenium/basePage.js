@@ -281,7 +281,9 @@ var BasePage = {
       return self.find(By.id(id));
     });
 
-  return self.toggleSessionBookmark(sessionToggleArr).then(self.toggleStarredButton.bind(self)).then(self.getElemsDisplayStatus.bind(null, sessionElemArr));
+    return self.toggleSessionBookmark(sessionToggleArr).then(function() {
+      return self.driver.executeScript('window.scrollTo(0, 0)').then(self.toggleStarredButton.bind(self)).then(self.getElemsDisplayStatus.bind(null, sessionElemArr));
+    });
   }
 
 };
