@@ -405,8 +405,8 @@ describe("Running Selenium tests on Chrome Driver", function() {
     });
 
     it('Track, Search, Starred', function(done) {
+      //trackPage.driver.sleep(1000);
       trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
-      trackPage.driver.sleep(2000);
       trackPage.filterCombination(['filter', 'search', 'starred', 'unstarred', 'unsearch', 'unfilter']).then(function(val) {
         assert.deepEqual(val[0], [ true, true, true, true, false, false ]);
         assert.deepEqual(val[1], [ true, false, true, false, false, false ]);
@@ -421,8 +421,8 @@ describe("Running Selenium tests on Chrome Driver", function() {
     });
 
     it('Search, Track and Starred', function(done) {
-      trackPage.driver.sleep(2000);
-      trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
+      //trackPage.driver.sleep(1000);
+      //trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
       trackPage.filterCombination(['search', 'filter', 'starred', 'unstarred', 'unfilter', 'unsearch']).then(function(val) {
         console.log(val);
         assert.deepEqual(val[0], [ true, false, true, false, true, false ]);
@@ -439,8 +439,8 @@ describe("Running Selenium tests on Chrome Driver", function() {
     });
 
     it('Track Starred Search', function(done) {
-      trackPage.driver.sleep(2000);
-      trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
+      //trackPage.driver.sleep(1000);
+      //trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
       trackPage.filterCombination(['filter', 'starred', 'search', 'unsearch', 'unstarred', 'unfilter']).then(function(val) {
         console.log(val);
         assert.deepEqual(val[0], [ true, true, true, true, false, false ]);
@@ -456,8 +456,8 @@ describe("Running Selenium tests on Chrome Driver", function() {
     });
 
     it('Search Starred Track', function(done) {
-      trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
-      trackPage.driver.sleep(3000);
+      //trackPage.driver.sleep(1000);
+      //trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
       trackPage.filterCombination(['search', 'starred', 'filter', 'unfilter', 'unstarred', 'unsearch']).then(function(val) {
         console.log(val);
         assert.deepEqual(val[0], [ true, false, true, false, true, false ]);
@@ -474,8 +474,8 @@ describe("Running Selenium tests on Chrome Driver", function() {
     });
 
     it('Starred, Search and Track', function(done) {
-      trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
-      trackPage.driver.sleep(3000);
+      //trackPage.driver.sleep(1000);
+      //trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
       trackPage.filterCombination(['starred', 'search', 'filter', 'unfilter', 'unsearch', 'unstarred']).then(function(val) {
         assert.deepEqual(val[0], [ true, true, false, false, true, false ]);
         assert.deepEqual(val[1], [ true, false, false, false, true, false ]);
@@ -491,8 +491,8 @@ describe("Running Selenium tests on Chrome Driver", function() {
     });
 
     it('Starred Track And Search', function(done) {
-      trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
-      trackPage.driver.sleep(2000);
+      //trackPage.driver.sleep(1000);
+      //trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
       trackPage.filterCombination(['starred', 'filter', 'search', 'unsearch', 'unfilter', 'unstarred']).then(function(val) {
         assert.deepEqual(val[0], [ true, true, false, false, true, false ]);
         assert.deepEqual(val[1], [ true, true, false, false, false, false ]);
