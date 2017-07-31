@@ -502,6 +502,9 @@
               });
               if (trackFlag) {
                 $(this).show();
+                if (!trackFilterMode) {
+                  $(this).children('.text').show();
+                }
               }
               else {
                 $(this).hide();

@@ -120,7 +120,7 @@ var BasePage = {
   },
 
   countOnesInArray: function(arr) {
-    return arr.reduce(function(counter, value) { return value == 1 ? counter + 1 : counter; }, 0);
+    return arr.reduce(function(counter, value) { return (value == 1 || value == 'true') ? counter + 1 : counter; }, 0);
   },
 
   getAllLinks: function(locator) {

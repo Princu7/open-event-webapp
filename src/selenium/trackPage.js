@@ -51,5 +51,124 @@ TrackPage.starredModeThenSearch = function() {
   return self.toggleStarredButton().then(self.search.bind(self, 'wel')).then(self.getElemsDisplayStatus.bind(null, promiseArr));
 };
 
+TrackPage.filterThenGetTracksNum = function(choice) {
+  var self = this;
+  console.log(choice);
+  if (choice == 'true') {
+    console.log("Going inside");
+    return self.find(By.className('track-names')).findElements(By.className('track-name')).then(function(elems) {
+      return elems[16].click().then(self.getNumTracksVisible.bind(self));
+    });
+  } else {
+    return self.find(By.id('clearFilter')).click().then(self.getNumTracksVisible.bind(self));
+  }
+};
+
+TrackPage.searchThenSessionStatus = function(text) {
+  var self = this;
+  var idArr = ['3014', '3015', '3018', '2938', '2907'];
+  var promiseArr = idArr.map(function(elem) { return self.find(By.id(elem)); });
+  return self.resetSearchBar().then(self.search.bind(self, text)).then(self.getElemsDisplayStatus.bind(null, promiseArr));
+};
+
+TrackPage.starredThenSessionStatus = function() {
+  var self = this;
+  var idArr = ['3014', '3015', '3018', '2938', '2907'];
+  var promiseArr = idArr.map(function(elem) { return self.find(By.id(elem)); });
+  return self.toggleStarredButton().then(self.getElemsDisplayStatus.bind(null, promiseArr));
+};
+
+TrackPage.getNumTracksVisible = function() {
+  var self = this;
+  var numPromise = new Promise(function(resolve) {
+    self.findAll(By.className('track-filter')).then(function(trackElems) {
+      var counter = 0;
+      var trackNameArr = [];
+      trackElems.forEach(function(trackElem) {
+        trackElem.isDisplayed().then(function(val) {
+          trackElem.findElement(By.className('text')).getText().then(function(name) {
+            if (val && trackNameArr.indexOf(name) == -1) {
+              trackNameArr.push(name);
+            }
+            counter += 1;
+            if (counter == trackElems.length) {
+              resolve(trackNameArr.length);
+            }
+          });
+        });
+      });
+    });
+  });
+  return numPromise;
+};
+
+TrackPage.filterStarSearch = function(steps) {
+  var self = this;
+  var resultsArr = [];
+  var stepObjectFunc = {
+    'filter': function() {
+      return self.filterThenGetTracksNum('true');
+    },
+
+    'unfilter': function() {
+      return self.filterThenGetTracksNum('false');
+    },
+
+    'search': function() {
+      return self.searchThenSessionStatus('wel');
+    },
+
+    'unsearch': function() {
+      return self.searchThenSessionStatus('');
+    },
+
+    'starred': function() {
+      return self.starredThenSessionStatus();
+    },
+
+    'unstarred': function() {
+      return self.starredThenSessionStatus();
+    }
+
+  };
+
+  var promArr = [];
+  promArr = steps.map(function(step) {
+    return stepObjectFunc[step]();
+  });
+
+  Promise.series = function series(arrayOfPromises) {
+    var results = [];
+    return arrayOfPromises.reduce(function(seriesPromise, promise) {
+      return seriesPromise.then(function() {
+        return promise
+        .then(function(result) {
+          results.push(result);
+        });
+      });
+    }, Promise.resolve())
+    .then(function() {
+      return results;
+    });
+  };
+
+  return Promise.series(promArr).then(function(results) {
+      // do stuff with results here
+    return results;
+  });
+
+  //var resPromise = new Promise(function(resolve) {
+    //stepObjectFunc[steps[0]]().then(function(res) {
+      //resultsArr.push(res);
+      //stepObjectFunc[steps[1]]().then(function(res) {
+        //resultsArr.push(res);
+      //})
+    //})
+  //})
+
+
+  //return resPromise;
+};
+
 
 module.exports = TrackPage;
