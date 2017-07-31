@@ -490,22 +490,22 @@ describe("Running Selenium tests on Chrome Driver", function() {
 
     });
 
-    //it('Starred Track And Search', function(done) {
-      //trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
-      //trackPage.driver.sleep(2000);
-      //trackPage.filterCombination(['starred', 'filter', 'search', 'unsearch', 'unfilter', 'unstarred']).then(function(val) {
-        //assert.deepEqual(val[0], [ true, true, false, false, true, false ]);
-        //assert.deepEqual(val[1], [ true, true, false, false, false, false ]);
-        //assert.deepEqual(val[2], [ true, false, false, false, false, false ]);
-        //assert.deepEqual(val[3], val[1]);
-        //assert.deepEqual(val[4], val[0]);
-        //assert.deepEqual(val[5], [ true, true, true, true, true, true ]);
-        //done();
-      //}).catch(function(err) {
-        //done(err);
-      //});
+    it('Starred Track And Search', function(done) {
+      trackPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit/tracks.html');
+      trackPage.driver.sleep(2000);
+      trackPage.filterCombination(['starred', 'filter', 'search', 'unsearch', 'unfilter', 'unstarred']).then(function(val) {
+        assert.deepEqual(val[0], [ true, true, false, false, true, false ]);
+        assert.deepEqual(val[1], [ true, true, false, false, false, false ]);
+        assert.deepEqual(val[2], [ true, false, false, false, false, false ]);
+        assert.deepEqual(val[3], val[1]);
+        assert.deepEqual(val[4], val[0]);
+        assert.deepEqual(val[5], [ true, true, true, true, true, true ]);
+        done();
+      }).catch(function(err) {
+        done(err);
+      });
 
-    //});
+    });
 
     //it('Check for Scrollbars', function(done) {
       //var sizesArr = [[300, 600], [720, 600]];

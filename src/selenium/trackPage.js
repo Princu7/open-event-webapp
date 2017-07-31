@@ -74,10 +74,18 @@ TrackPage.filterThenSessionStatus = function(choice) {
   if (choice == 'true') {
     console.log("Going inside");
     return self.find(By.className('track-names')).findElements(By.className('track-name')).then(function(elems) {
-      return elems[16].click().then(self.getElemsDisplayStatus.bind(null, promiseArr));
+      return elems[16].click().then(self.getElemsDisplayStatus.bind(null, promiseArr)).then(function(ans) {
+        return self.driver.sleep(1000).then(function() {
+          return ans;
+        });
+      });
     });
   } else {
-    return self.find(By.id('clearFilter')).click().then(self.getElemsDisplayStatus.bind(null, promiseArr));
+    return self.find(By.id('clearFilter')).click().then(self.getElemsDisplayStatus.bind(null, promiseArr)).then(function(ans) {
+      return self.driver.sleep(1000).then(function() {
+        return ans;
+      });
+    });
   }
 };
 
