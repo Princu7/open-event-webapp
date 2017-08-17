@@ -139,6 +139,8 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
     trackDetailsFont[track.id] = (track['font-color'] !== null) ? track['font-color'] : '#000000';
   });
 
+  console.log("Printing sessions");
+  console.log(sessions);
   async.eachSeries(sessions,(session,callback) => {
     if (!session['starts-at'] || (session.microlocation === null) || (session.state === 'pending') || (session.state === 'rejected') || (session.state === 'draft')) {
       return callback(null);
@@ -182,8 +184,8 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
       location: roomName,
       speakers_list: session.speakers.map((speaker) => {
         let spkr = speakersMap.get(speaker.id);
-        if(spkr.photo){
-          spkr.thumb = 'images/speakers/thumbnails/' + (spkr.photo).split('/').pop();
+        if(spkr['photo-url']){
+          spkr.thumb = 'images/speakers/thumbnails/' + (spkr['photo-url']).split('/').pop();
         }
         if(spkr['short-biography'] !== '') {
           spkr.biography = spkr['short-biography'];
@@ -205,15 +207,15 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
 
     if (reqOpts.assetmode === 'download') {
       const appFolder = reqOpts.email + '/' + slugify(reqOpts.name);
-      if ((session['audios-url'] !== null) && (session['audios-url'] !== '') ) {
-        if(session['audios-url'].substring(0, 4) === 'http'){
-          distHelper.downloadAudio(appFolder, session['audios-url'], function(audio){
+      if ((session['audio-url'] !== null) && (session['audio-url'] !== '') ) {
+        if(session['audio-url'].substring(0, 4) === 'http'){
+          distHelper.downloadAudio(appFolder, session['audio-url'], function(audio){
             track.sessions.audio = encodeURI(audio);
             callback();
           });
         }
         else if (reqOpts.datasource === 'eventapi') {
-          distHelper.downloadAudio(appFolder, urljoin(reqOpts.apiendpoint,'/', session['audios-url']), function(audio){
+          distHelper.downloadAudio(appFolder, urljoin(reqOpts.apiendpoint,'/', session['audio-url']), function(audio){
             track.sessions.audio = encodeURI(audio);
             callback();
           });
@@ -289,8 +291,8 @@ function foldByTime(sessions, speakers, trackInfo) {
       location: roomName,
       speakers_list: session.speakers.map((speaker) =>  {
         let spkr = speakersMap.get(speaker.id);
-        if(spkr.photo){
-          spkr.thumb = 'images/speakers/thumbnails/'+ (spkr.photo).split('/').pop();
+        if(spkr['photo-url']){
+          spkr.thumb = 'images/speakers/thumbnails/'+ (spkr['photo-url']).split('/').pop();
         }
         spkr.nameIdSlug = slugify(spkr.name + spkr.id);
         return spkr;
@@ -559,13 +561,13 @@ function foldByLevel(sponsors ,reqOpts, next) {
   let level1=0,level2=0,level3=0;
   const appFolder = reqOpts.email + '/' + slugify(reqOpts.name);
   sponsors.forEach( (sponsor) => {
-    if(sponsor.level==="1" && (sponsor['logo'] !== null||" ")){
+    if(sponsor.level==="1" && (sponsor['logo-url'] !== null||" ")){
       level1++;
     }
-    if (sponsor.level==="2" && (sponsor['logo'] !== null||" ")) {
+    if (sponsor.level==="2" && (sponsor['logo-url'] !== null||" ")) {
       level2++;
     }
-    if (sponsor.level==="3" && (sponsor['logo'] !== null||" ")) {
+    if (sponsor.level==="3" && (sponsor['logo-url'] !== null||" ")) {
       level3++;
     }
 
@@ -582,7 +584,7 @@ function foldByLevel(sponsors ,reqOpts, next) {
       imgsize: '',
       sponsorimg:'',
       name: sponsor.name,
-      logo: sponsor['logo'],
+      logo: sponsor['logo-url'],
       url:  sponsor.url,
       level: sponsor.level,
       description: sponsor.description,
@@ -610,24 +612,24 @@ function foldByLevel(sponsors ,reqOpts, next) {
         sponsorItem.sponsorimg = 'vcenter sponsorimg';
     }
 
-    if (sponsor['logo'] !== null && sponsor['logo'] != "") {
-      if (sponsor['logo'].substring(0, 4) === 'http') {
-        distHelper.downloadSponsorPhoto(appFolder, sponsor['logo'], function(result){
+    if (sponsor['logo-url'] !== null && sponsor['logo-url'] != "") {
+      if (sponsor['logo-url'].substring(0, 4) === 'http') {
+        distHelper.downloadSponsorPhoto(appFolder, sponsor['logo-url'], function(result){
           sponsorItem.logo = encodeURI(result);
           levelData[sponsor.level].push(sponsorItem);
           callback();
         });
       } else if (reqOpts.datasource === 'eventapi' ) {
-        distHelper.downloadSponsorPhoto(appFolder, urljoin(reqOpts.apiendpoint, sponsor['logo']), function(result){
+        distHelper.downloadSponsorPhoto(appFolder, urljoin(reqOpts.apiendpoint, sponsor['logo-url']), function(result){
           sponsorItem.logo = encodeURI(result);
           levelData[sponsor.level].push(sponsorItem);
           callback();
         });
       }
       else {
-        let reg = sponsor['logo'].split('');
+        let reg = sponsor['logo-url'].split('');
         if(reg[0] =='/'){
-          sponsorItem.logo = encodeURI(sponsor['logo'].substring(1,sponsor['logo'].length));
+          sponsorItem.logo = encodeURI(sponsor['logo-url'].substring(1,sponsor['logo-url'].length));
           levelData[sponsor.level].push(sponsorItem);
           callback();
         }
@@ -758,8 +760,8 @@ function foldByRooms(room, sessions, speakers, trackInfo) {
       audio:session['audios-url'],
       speakers_list: session.speakers.map((speaker) => {
         let spkr = speakersMap.get(speaker.id);
-        if(spkr.photo){
-          spkr.thumb = 'images/speakers/thumbnails/' + (spkr.photo).split('/').pop();
+        if(spkr['photo-url']){
+          spkr.thumb = 'images/speakers/thumbnails/' + (spkr['photo-url']).split('/').pop();
         }
         if(spkr['short-biography'] !== '') {
           spkr.biography = spkr['short-biography'];
@@ -841,25 +843,25 @@ function foldBySpeakers(speakers ,sessions, tracksData, reqOpts, next) {
     const appFolder = reqOpts.email + '/' + slugify(reqOpts.name);
     async.eachOfSeries(speakers, (speaker, key, callback) => {
 
-      if (speaker.photo !== null && speaker.photo != '') {
-        if (speaker.photo.substring(0, 4) === 'http') {
-          distHelper.downloadSpeakerPhoto(appFolder, speaker.photo, function(result){
-            speakers[key].photo = encodeURI(result);
-            speakers[key].photo = speakers[key].photo.substring(0, speakers[key].photo.lastIndexOf('.')) + '.jpg';
+      if (speaker['photo-url'] !== null && speaker['photo-url'] != '') {
+        if (speaker['photo-url'].substring(0, 4) === 'http') {
+          distHelper.downloadSpeakerPhoto(appFolder, speaker['photo-url'], function(result){
+            speakers[key]['photo-url'] = encodeURI(result);
+            speakers[key]['photo-url'] = speakers[key]['photo-url'].substring(0, speakers[key]['photo-url'].lastIndexOf('.')) + '.jpg';
             callback();
           });
         }
         else if (reqOpts.datasource === 'eventapi' ) {
-          distHelper.downloadSpeakerPhoto(appFolder, urljoin(reqOpts.apiendpoint, speaker.photo), function(result){
-            speakers[key].photo = encodeURI(result);
-            speakers[key].photo = speakers[key].photo.substring(0, speakers[key].photo.lastIndexOf('.')) + '.jpg';
+          distHelper.downloadSpeakerPhoto(appFolder, urljoin(reqOpts.apiendpoint, speaker['photo-url']), function(result){
+            speakers[key]['photo-url'] = encodeURI(result);
+            speakers[key]['photo-url'] = speakers[key]['photo-url'].substring(0, speakers[key]['photo-url'].lastIndexOf('.')) + '.jpg';
             callback();
           });
         } else {
-          var reg = speaker.photo.split('');
+          var reg = speaker['photo-url'].split('');
           if(reg[0] =='/'){
-            speakers[key].photo = encodeURI(speaker.photo.substring(1,speaker.photo.length));
-            speakers[key].photo = speakers[key].photo.substring(0, speakers[key].photo.lastIndexOf('.')) + '.jpg';
+            speakers[key]['photo-url'] = encodeURI(speaker['photo-url'].substring(1,speaker['photo-url'].length));
+            speakers[key]['photo-url'] = speakers[key]['photo-url'].substring(0, speakers[key]['photo-url'].lastIndexOf('.')) + '.jpg';
             callback();
           }
         }
@@ -869,8 +871,8 @@ function foldBySpeakers(speakers ,sessions, tracksData, reqOpts, next) {
     }, function(){
       let speakerslist = [];
       speakers.forEach((speaker) => {
-        if(speaker.photo){
-          var thumb = 'images/speakers/thumbnails/' + (speaker.photo).split('/').pop();
+        if(speaker['photo-url']){
+          var thumb = 'images/speakers/thumbnails/' + (speaker['photo-url']).split('/').pop();
         }
         let allSessions = getAllSessions(speaker.sessions, sessions, tracksData);
         if (allSessions.length) {
@@ -887,7 +889,7 @@ function foldBySpeakers(speakers ,sessions, tracksData, reqOpts, next) {
             mobile: speaker.mobile,
             name: speaker.name,
             thumb: thumb,
-            photo: speaker.photo,
+            photo: speaker['photo-url'],
             organisation: speaker.organisation,
             position: speaker.position,
             sessions: allSessions,

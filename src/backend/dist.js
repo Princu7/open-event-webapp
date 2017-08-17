@@ -102,9 +102,6 @@ const downloadJsonFromGithub = function(appPath, endpoint, jsonFile, cb) {
 };
 
 const downloadJsonFromEventyay = function(appPath, endpoint, jsonFile, cb) {
-  if(jsonFile == 'speakers') {
-    return cb();
-  }
   var fileName = appPath + '/json/' + jsonFile;
 
   request.get({url: endpoint}, function(err, response, body) {
@@ -205,10 +202,13 @@ var optimizeLogo = function(image, socket, done) {
 };
 
 var resizeSponsors = function(dir, socket, done) {
+  console.log("Inside sponsors");
   fs.readdir(dir + '/sponsors/', function(err, list){
     if(err) {
+      console.log("No image");
       logger.addLog('Info', 'No sponsors images found', socket, err);
     }
+    console.log(list);
 
     async.each(list, function(image, trial) {
       sharp(dir + '/sponsors/' + image)
@@ -540,13 +540,13 @@ module.exports = {
       jsonsUrl[key] = endpoint + '/' + key;
     });
 
-    if(endpoint.search('api.eventyay.com') != -1) {
+    if(endpoint.search('open-event-api') != -1) {
       endpointType = 'eventyay';
 
       Object.keys(jsonsUrl).forEach(function(key) {
 
         if (key == 'sessions') {
-          jsonsUrl[key] = jsonsUrl[key] + '?include=track,microlocation,session-type&fields[track]=id,name&fields[microlocation]=id,name&page[size]=0';
+          jsonsUrl[key] = jsonsUrl[key] + '?include=track,microlocation,session-type,speakers&fields[track]=id,name&fields[speaker]=id,name&fields[microlocation]=id,name&page[size]=0';
         }
 
         else if (key == 'tracks') {
@@ -558,11 +558,12 @@ module.exports = {
         }
 
         else if (key == 'speakers') {
+          jsonsUrl[key] = jsonsUrl[key] + '?include=sessions&fields[session]=id,title';
           // TO DO When the API Supports it
         }
 
       });
-     //console.log(jsonsUrl);
+     console.log(jsonsUrl);
     }
 
     try {
