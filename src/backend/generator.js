@@ -82,39 +82,19 @@ function minifyHtml(file) {
 }
 
 function transformData(sessions, speakers, event, sponsors, tracksData, roomsData, reqOpts, next) {
-  //console.log("Printing session");
-  //console.log(sessions);
-  //console.log("Printing speakers");
-  //console.log(speakers);
-  //console.log("Printing event");
-  //console.log(event);
-  //console.log("Printing sponsors");
-  //console.log(sponsors);
-  //console.log("Printing tracks");
-  //console.log(tracksData);
-  //console.log("Printing roomsData");
-  //console.log(roomsData);
   fold.foldByTrack(sessions, speakers, tracksData, reqOpts, function(tracks) {
-    console.log("Track");
     const days = fold.foldByDate(tracks);
     const sociallinks = fold.createSocialLinks(event);
     fold.extractEventUrls(event, speakers, sponsors, reqOpts, function(eventurls){
-      console.log("event urls");
       const copyright = fold.getCopyrightData(event);
       fold.foldByLevel(sponsors, reqOpts, function(sponsorpics){
-        console.log("levels");
         const roomsinfo = fold.foldByRooms(roomsData, sessions, speakers, tracksData);
         fold.foldBySpeakers(speakers, sessions, tracksData, reqOpts, function(speakerslist){
-        console.log("speakers");
           const apptitle = fold.getAppName(event);
-          console.log("apptitle");
           const timeList = fold.foldByTime(sessions, speakers, tracksData);
-          console.log("timelist");
           const metaauthor = fold.getOrganizerName(event);
-          console.log("metaauthor");
           const tracknames = fold.returnTracknames(sessions, tracksData);
           const roomsnames = fold.returnRoomnames(roomsinfo);
-          console.log("tracknames");
           next({
             tracks, days, sociallinks,
             eventurls, copyright, sponsorpics,
@@ -142,7 +122,6 @@ function getJsonData(reqOpts, next) {
       next(null, data);
     });
   } catch (err) {
-    console.log(err);
     return next(err);
   }
 }

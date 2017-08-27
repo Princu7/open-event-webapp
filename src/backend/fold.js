@@ -139,8 +139,6 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
     trackDetailsFont[track.id] = (track['font-color'] !== null) ? track['font-color'] : '#000000';
   });
 
-  console.log("Printing sessions");
-  console.log(sessions);
   async.eachSeries(sessions,(session,callback) => {
     if (!session['starts-at'] || (session.microlocation === null) || (session.state === 'pending') || (session.state === 'rejected') || (session.state === 'draft')) {
       return callback(null);
@@ -237,7 +235,6 @@ function foldByTrack(sessions, speakers, trackInfo, reqOpts, next) {
     tracks.sort(byProperty('sortKey'));
     tracks.forEach(function(track) {
       track.sessions.sort(byProperty('start'));
-      console.log(track.sessions.speakers_list);
     });
     next(tracks);
   });
